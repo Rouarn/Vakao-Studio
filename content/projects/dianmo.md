@@ -21,7 +21,7 @@ accent: orange
 featured: true
 order: 3
 links:
-  github: https://github.com/Rouarn/dianmo
+  github: https://github.com/Rouarn/DianMo
 metrics:
   - label: 数值类型
     value: "4 种"

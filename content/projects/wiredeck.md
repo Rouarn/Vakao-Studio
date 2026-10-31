@@ -24,8 +24,8 @@ featured: true
 order: 4
 links:
   site: https://wiredeck.woyuxiaji.cn
-  github: https://github.com/Rouarn/wiredeck
-  download: https://github.com/Rouarn/wiredeck/releases
+  github: https://github.com/Rouarn/WireDeck
+  download: https://github.com/Rouarn/WireDeck/releases
 metrics:
   - label: 正式版
     value: "v1.0.1"

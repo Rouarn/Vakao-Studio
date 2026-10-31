@@ -140,7 +140,7 @@ useSeoMeta({
                 站点源码公开在 GitHub，包含设计 token、页面模板与构建配置。
               </p>
               <a
-                href="https://github.com/Rouarn/vakao-studio"
+                href="https://github.com/Rouarn/Vakao-Studio"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="btn btn-ghost mt-6 w-full"
