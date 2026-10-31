@@ -1,0 +1,11 @@
+# 这些版本是本次锁定并实测过的；pnpm 12 的 24h 发布年龄策略会拦截刚发布的包。
+minimumReleaseAgeExclude:
+  - '@types/three@0.187.0'
+  - 'playwright-core@1.64.1'
+  - '@nuxt/image@2.2.1'
+  - 'ipx@4.1.0'
+  - 'motion-v@2.10.0'
+
+allowBuilds:
+  esbuild: true
+  better-sqlite3: true
