@@ -1,51 +1,51 @@
 <script setup lang="ts">
-import { ArrowUpRight, Github, Menu, X } from 'lucide-vue-next'
+import { ArrowUpRight, Github, Menu, X } from "lucide-vue-next";
 
 defineProps<{
-  theme: 'light' | 'dark'
-  themeReady: boolean
-}>()
+  theme: "light" | "dark";
+  themeReady: boolean;
+}>();
 
 defineEmits<{
-  (e: 'toggle-theme'): void
-}>()
+  (e: "toggle-theme"): void;
+}>();
 
-const route = useRoute()
-const open = ref(false)
+const route = useRoute();
+const open = ref(false);
 
 const links = [
-  { label: '项目', to: '/projects' },
-  { label: '团队', to: '/about' },
-  { label: '联系', to: '/contact' }
-]
+  { label: "项目", to: "/projects" },
+  { label: "团队", to: "/about" },
+  { label: "联系", to: "/contact" },
+];
 
-const isActive = (to: string) => route.path === to || route.path.startsWith(`${to}/`)
+const isActive = (to: string) => route.path === to || route.path.startsWith(`${to}/`);
 
 const close = () => {
-  open.value = false
-}
+  open.value = false;
+};
 
 watch(
   () => route.path,
-  () => close()
-)
+  () => close(),
+);
 
 watch(open, (value) => {
   if (import.meta.client) {
-    document.documentElement.style.overflow = value ? 'hidden' : ''
+    document.documentElement.style.overflow = value ? "hidden" : "";
   }
-})
+});
 
 onBeforeUnmount(() => {
-  if (import.meta.client) document.documentElement.style.overflow = ''
-})
+  if (import.meta.client) document.documentElement.style.overflow = "";
+});
 
 const onKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Escape') close()
-}
+  if (event.key === "Escape") close();
+};
 
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
+onMounted(() => window.addEventListener("keydown", onKeydown));
+onBeforeUnmount(() => window.removeEventListener("keydown", onKeydown));
 </script>
 
 <template>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { Moon, Sun } from 'lucide-vue-next'
+import { Moon, Sun } from "lucide-vue-next";
 
 defineProps<{
-  theme: 'light' | 'dark'
-  ready: boolean
-}>()
+  theme: "light" | "dark";
+  ready: boolean;
+}>();
 
 defineEmits<{
-  (e: 'toggle-theme'): void
-}>()
+  (e: "toggle-theme"): void;
+}>();
 </script>
 
 <template>

@@ -1,49 +1,51 @@
 <script setup lang="ts">
-import { ArrowLeft, ArrowUpRight, Github, Download, ExternalLink, FileText } from 'lucide-vue-next'
-import type { Project } from '~/types'
+import { ArrowLeft, ArrowUpRight, Github, Download, ExternalLink, FileText } from "lucide-vue-next";
+import type { Project } from "~/types";
 
-const route = useRoute()
-const all = await useProjects()
+const route = useRoute();
+const all = await useProjects();
 
 const { data: project } = await useAsyncData(`project-${route.path}`, () =>
-  queryCollection('projects').path(route.path).first()
-)
+  queryCollection("projects").path(route.path).first(),
+);
 
 if (!project.value) {
-  throw createError({ statusCode: 404, statusMessage: '项目不存在', fatal: true })
+  throw createError({ statusCode: 404, statusMessage: "项目不存在", fatal: true });
 }
 
-const current = computed(() => project.value as unknown as Project)
+const current = computed(() => project.value as unknown as Project);
 
 const related = computed(() => {
-  const slugs = current.value.related ?? []
+  const slugs = current.value.related ?? [];
   return slugs
     .map((slug) => all.value.find((item) => item.slug === slug))
-    .filter((item): item is Project => Boolean(item))
-})
+    .filter((item): item is Project => Boolean(item));
+});
 
-const currentIndex = computed(() => all.value.findIndex((item) => item.slug === current.value.slug))
+const currentIndex = computed(() =>
+  all.value.findIndex((item) => item.slug === current.value.slug),
+);
 const next = computed(() => {
-  if (all.value.length < 2) return null
-  return all.value[(currentIndex.value + 1) % all.value.length]
-})
+  if (all.value.length < 2) return null;
+  return all.value[(currentIndex.value + 1) % all.value.length];
+});
 
 const links = computed(() => {
-  const entries: { label: string; href: string; icon: unknown }[] = []
-  const value = current.value.links
-  if (value.site) entries.push({ label: '访问站点', href: value.site, icon: ExternalLink })
-  if (value.download) entries.push({ label: '下载', href: value.download, icon: Download })
-  if (value.github) entries.push({ label: 'GitHub', href: value.github, icon: Github })
-  if (value.docs) entries.push({ label: '文档', href: value.docs, icon: FileText })
-  return entries
-})
+  const entries: { label: string; href: string; icon: unknown }[] = [];
+  const value = current.value.links;
+  if (value.site) entries.push({ label: "访问站点", href: value.site, icon: ExternalLink });
+  if (value.download) entries.push({ label: "下载", href: value.download, icon: Download });
+  if (value.github) entries.push({ label: "GitHub", href: value.github, icon: Github });
+  if (value.docs) entries.push({ label: "文档", href: value.docs, icon: FileText });
+  return entries;
+});
 
 const statusTone = computed(() => {
-  if (current.value.status === 'active') return 'bg-emerald-500'
-  if (current.value.status === 'maintained') return 'bg-[var(--proj)]'
-  if (current.value.status === 'paused') return 'bg-amber-500'
-  return 'bg-faint'
-})
+  if (current.value.status === "active") return "bg-emerald-500";
+  if (current.value.status === "maintained") return "bg-[var(--proj)]";
+  if (current.value.status === "paused") return "bg-amber-500";
+  return "bg-faint";
+});
 
 useSeoMeta({
   title: `${current.value.title} — VaKao`,
@@ -51,27 +53,27 @@ useSeoMeta({
   ogTitle: `${current.value.title} — ${current.value.tagline}`,
   ogDescription: current.value.summary,
   ogImage: `/og/${current.value.slug}.png`,
-  ogType: 'article',
-  twitterCard: 'summary_large_image'
-})
+  ogType: "article",
+  twitterCard: "summary_large_image",
+});
 
 useHead({
   script: [
     {
-      type: 'application/ld+json',
+      type: "application/ld+json",
       innerHTML: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'SoftwareApplication',
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
         name: current.value.title,
         applicationCategory: current.value.categoryLabel,
-        operatingSystem: current.value.platforms.join(', '),
+        operatingSystem: current.value.platforms.join(", "),
         description: current.value.summary,
         url: `https://woyuxiaji.cn/projects/${current.value.slug}`,
-        author: { '@type': 'Organization', name: 'VaKao', url: 'https://woyuxiaji.cn' }
-      })
-    }
-  ]
-})
+        author: { "@type": "Organization", name: "VaKao", url: "https://woyuxiaji.cn" },
+      }),
+    },
+  ],
+});
 </script>
 
 <template>
@@ -141,11 +143,11 @@ useHead({
         <div class="grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
           <div class="border-b border-line px-6 py-5 sm:border-r lg:border-b-0 md:px-10">
             <p class="hud text-faint">角色</p>
-            <p class="mt-2 text-sm text-ink">{{ current.role || '—' }}</p>
+            <p class="mt-2 text-sm text-ink">{{ current.role || "—" }}</p>
           </div>
           <div class="border-b border-line px-6 py-5 sm:px-6 lg:border-b-0 lg:border-r">
             <p class="hud text-faint">平台</p>
-            <p class="mt-2 text-sm text-ink">{{ current.platforms.join(' / ') || '—' }}</p>
+            <p class="mt-2 text-sm text-ink">{{ current.platforms.join(" / ") || "—" }}</p>
           </div>
           <div class="border-b border-line px-6 py-5 sm:border-r lg:border-b-0 lg:px-6">
             <p class="hud text-faint">周期</p>
@@ -154,7 +156,7 @@ useHead({
           <div class="px-6 py-5 md:px-10 lg:px-6">
             <p class="hud text-faint">技术栈</p>
             <p class="mt-2 truncate text-sm text-ink" :title="current.stack.join(' / ')">
-              {{ current.stack.slice(0, 3).join(' / ') }}
+              {{ current.stack.slice(0, 3).join(" / ") }}
             </p>
           </div>
         </div>
@@ -181,7 +183,7 @@ useHead({
                 </div>
                 <div>
                   <dt class="hud text-faint">平台</dt>
-                  <dd class="mt-1 text-ink">{{ current.platforms.join(' / ') || '—' }}</dd>
+                  <dd class="mt-1 text-ink">{{ current.platforms.join(" / ") || "—" }}</dd>
                 </div>
                 <div>
                   <dt class="hud text-faint">周期</dt>
@@ -189,7 +191,7 @@ useHead({
                 </div>
                 <div>
                   <dt class="hud text-faint">角色</dt>
-                  <dd class="mt-1 text-ink">{{ current.role || '—' }}</dd>
+                  <dd class="mt-1 text-ink">{{ current.role || "—" }}</dd>
                 </div>
               </dl>
 
@@ -207,9 +209,15 @@ useHead({
               <div v-if="current.metrics.length" class="mt-8 border-t border-line pt-5">
                 <p class="hud text-faint">QUICK FACTS</p>
                 <dl class="mt-4 space-y-3">
-                  <div v-for="metric in current.metrics" :key="metric.label" class="flex items-baseline justify-between gap-3">
+                  <div
+                    v-for="metric in current.metrics"
+                    :key="metric.label"
+                    class="flex items-baseline justify-between gap-3"
+                  >
                     <dt class="text-xs text-muted">{{ metric.label }}</dt>
-                    <dd class="font-display text-lg font-semibold text-strong">{{ metric.value }}</dd>
+                    <dd class="font-display text-lg font-semibold text-strong">
+                      {{ metric.value }}
+                    </dd>
                   </div>
                 </dl>
               </div>
@@ -224,7 +232,9 @@ useHead({
         <div class="px-6 py-14 md:px-10 md:py-20">
           <Reveal>
             <p class="hud text-faint">02 / CAPABILITIES</p>
-            <h2 class="display mt-5 max-w-2xl text-[clamp(2rem,4vw,3rem)] text-strong">它能做什么。</h2>
+            <h2 class="display mt-5 max-w-2xl text-[clamp(2rem,4vw,3rem)] text-strong">
+              它能做什么。
+            </h2>
           </Reveal>
           <div class="mt-10 grid border-t border-line sm:grid-cols-2 lg:grid-cols-3">
             <Reveal
@@ -234,7 +244,9 @@ useHead({
               class="border-b border-line py-6 sm:border-r sm:px-6 lg:[&:nth-child(3n)]:border-r-0"
             >
               <p class="hud text-faint">0{{ index + 1 }}</p>
-              <h3 class="mt-3 font-display text-lg font-semibold text-strong">{{ feature.title }}</h3>
+              <h3 class="mt-3 font-display text-lg font-semibold text-strong">
+                {{ feature.title }}
+              </h3>
               <p class="mt-2 text-sm leading-7 text-muted">{{ feature.description }}</p>
             </Reveal>
           </div>
@@ -250,7 +262,10 @@ useHead({
               <p class="hud text-faint">03 / RELATED</p>
               <h2 class="display mt-5 text-[clamp(2rem,4vw,3rem)] text-strong">相关的项目。</h2>
             </div>
-            <NuxtLink to="/projects" class="hud link-underline hidden text-muted hover:text-ink sm:block">
+            <NuxtLink
+              to="/projects"
+              class="hud link-underline hidden text-muted hover:text-ink sm:block"
+            >
               全部项目
             </NuxtLink>
           </div>
@@ -274,7 +289,9 @@ useHead({
         >
           <div>
             <p class="hud text-faint">NEXT PROJECT</p>
-            <p class="display mt-3 text-3xl text-strong transition-colors group-hover:text-[var(--proj-ink)] sm:text-4xl">
+            <p
+              class="display mt-3 text-3xl text-strong transition-colors group-hover:text-[var(--proj-ink)] sm:text-4xl"
+            >
               {{ next.title }}
             </p>
           </div>

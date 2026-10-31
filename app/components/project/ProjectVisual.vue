@@ -1,8 +1,8 @@
 <script setup lang="ts">
 defineProps<{
-  slug: string
-  accent: 'blue' | 'orange' | 'purple' | 'yellow'
-}>()
+  slug: string;
+  accent: "blue" | "orange" | "purple" | "yellow";
+}>();
 </script>
 
 <template>
@@ -66,7 +66,9 @@ defineProps<{
           <div v-for="i in 5" :key="i" class="file-row">
             <span class="file-icon" />
             <span class="line" :class="['w-1/2', 'w-2/3', 'w-1/3', 'w-1/2', 'w-2/5'][i - 1]" />
-            <span class="hud ml-auto text-faint">{{ ['24 KB', '1.2 MB', '86 KB', '4.8 MB', '320 KB'][i - 1] }}</span>
+            <span class="hud ml-auto text-faint">{{
+              ["24 KB", "1.2 MB", "86 KB", "4.8 MB", "320 KB"][i - 1]
+            }}</span>
           </div>
           <div class="progress"><span /></div>
           <p class="hud mt-2 text-faint">CHUNK 3 / 4 · SHA-256</p>
@@ -76,7 +78,16 @@ defineProps<{
       <div class="share-card">
         <p class="hud text-faint">SHARE LINK</p>
         <div class="qr" aria-hidden="true">
-          <span v-for="i in 49" :key="i" :class="{ on: [1,2,4,5,7,9,10,12,14,16,17,19,21,23,25,26,28,30,32,33,35,37,39,41,43,44,46,48].includes(i) }" />
+          <span
+            v-for="i in 49"
+            :key="i"
+            :class="{
+              on: [
+                1, 2, 4, 5, 7, 9, 10, 12, 14, 16, 17, 19, 21, 23, 25, 26, 28, 30, 32, 33, 35, 37,
+                39, 41, 43, 44, 46, 48,
+              ].includes(i),
+            }"
+          />
         </div>
         <div class="share-meta">
           <span class="line w-2/3" />
@@ -103,7 +114,7 @@ defineProps<{
           <div class="washi-list">
             <div v-for="i in 4" :key="i" class="washi-row">
               <span class="washi-line" :class="['w-1/3', 'w-1/2', 'w-2/5', 'w-1/3'][i - 1]" />
-              <span class="washi-value">{{ ['539', '24', '539', '24'][i - 1] }}</span>
+              <span class="washi-value">{{ ["539", "24", "539", "24"][i - 1] }}</span>
               <span class="washi-edit">改</span>
             </div>
           </div>
@@ -157,7 +168,7 @@ defineProps<{
           <span class="hud text-[var(--proj-ink)]">INTERCEPT</span>
         </div>
         <div v-for="i in 5" :key="i" class="req-row" :class="{ active: i === 3 }">
-          <span class="method" :class="i % 2 ? 'get' : 'post'">{{ i % 2 ? 'GET' : 'POST' }}</span>
+          <span class="method" :class="i % 2 ? 'get' : 'post'">{{ i % 2 ? "GET" : "POST" }}</span>
           <span class="line" :class="['w-1/2', 'w-2/3', 'w-1/3', 'w-1/2', 'w-2/5'][i - 1]" />
           <span class="hud ml-auto text-faint">{{ [200, 200, 304, 200, 500][i - 1] }}</span>
         </div>
@@ -175,7 +186,9 @@ defineProps<{
           <span class="hud text-faint">@vakao-ui</span>
           <span class="hud text-[var(--proj-ink)]">TYPESCRIPT</span>
         </div>
-        <pre class="code-body"><span class="c-key">import</span> { createClient } <span class="c-key">from</span> <span class="c-str">'@vakao-ui/axios'</span>
+        <pre
+          class="code-body"
+        ><span class="c-key">import</span> { createClient } <span class="c-key">from</span> <span class="c-str">'@vakao-ui/axios'</span>
 
 <span class="c-key">const</span> client = <span class="c-fn">createClient</span>({
   baseURL: <span class="c-str">'/api/v1'</span>,
@@ -198,7 +211,11 @@ defineProps<{
   overflow: hidden;
   border-bottom: 1px solid var(--color-line);
   background:
-    radial-gradient(60% 80% at 50% 20%, color-mix(in srgb, var(--proj) 12%, transparent), transparent 70%),
+    radial-gradient(
+      60% 80% at 50% 20%,
+      color-mix(in srgb, var(--proj) 12%, transparent),
+      transparent 70%
+    ),
     var(--color-sunken);
 }
 
@@ -486,9 +503,7 @@ defineProps<{
   inset: 12px 6px 6px;
   padding: 10px;
   border-radius: 14px;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.04)),
-    #efe7d6;
+  background: linear-gradient(rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.04)), #efe7d6;
   color: #241f18;
 }
 
@@ -667,8 +682,11 @@ defineProps<{
 .video-stage {
   position: relative;
   aspect-ratio: 16 / 8.4;
-  background:
-    radial-gradient(50% 70% at 50% 40%, color-mix(in srgb, var(--proj) 30%, #1b2024), #15181b 70%);
+  background: radial-gradient(
+    50% 70% at 50% 40%,
+    color-mix(in srgb, var(--proj) 30%, #1b2024),
+    #15181b 70%
+  );
 }
 
 .play {

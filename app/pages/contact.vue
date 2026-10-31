@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { ArrowUpRight, Check, Copy, Github, Mail } from 'lucide-vue-next'
+import { ArrowUpRight, Check, Copy, Github, Mail } from "lucide-vue-next";
 
-const email = 'robot01@woyuxiaji.cn'
-const copied = ref(false)
+const email = "robot01@woyuxiaji.cn";
+const copied = ref(false);
 
 const copyEmail = async () => {
   try {
-    await navigator.clipboard.writeText(email)
-    copied.value = true
+    await navigator.clipboard.writeText(email);
+    copied.value = true;
     window.setTimeout(() => {
-      copied.value = false
-    }, 1800)
+      copied.value = false;
+    }, 1800);
   } catch {
     // clipboard unavailable; the mailto link still works
   }
-}
+};
 
 useSeoMeta({
-  title: '联系 — VaKao',
-  description: '联系 VaKao：项目合作、技术交流、演示申请。邮箱 robot01@woyuxiaji.cn。',
-  ogTitle: '联系 VaKao',
-  ogDescription: '项目合作、技术交流、演示申请。',
-  ogImage: '/og/contact.png',
-  twitterCard: 'summary_large_image'
-})
+  title: "联系 — VaKao",
+  description: "联系 VaKao：项目合作、技术交流、演示申请。邮箱 robot01@woyuxiaji.cn。",
+  ogTitle: "联系 VaKao",
+  ogDescription: "项目合作、技术交流、演示申请。",
+  ogImage: "/og/contact.png",
+  twitterCard: "summary_large_image",
+});
 </script>
 
 <template>
@@ -67,16 +67,20 @@ useSeoMeta({
                   <Copy v-else :size="16" :stroke-width="1.5" />
                 </button>
               </div>
-              <p class="mt-4 text-sm text-muted">
-                也可以直接在 GitHub 上开 Issue 或 Discussion。
-              </p>
+              <p class="mt-4 text-sm text-muted">也可以直接在 GitHub 上开 Issue 或 Discussion。</p>
 
               <div class="mt-10 border-t border-line pt-6">
                 <p class="hud text-faint">写邮件时，最好带上</p>
                 <ul class="mt-4 space-y-3 text-sm leading-7 text-muted">
-                  <li class="flex gap-3"><span class="text-faint">01</span>你想解决的问题，以及现在是怎么解决的。</li>
-                  <li class="flex gap-3"><span class="text-faint">02</span>预期的时间、预算或交付形态（如果有）。</li>
-                  <li class="flex gap-3"><span class="text-faint">03</span>相关链接：现有产品、仓库、设计稿或参考。</li>
+                  <li class="flex gap-3">
+                    <span class="text-faint">01</span>你想解决的问题，以及现在是怎么解决的。
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="text-faint">02</span>预期的时间、预算或交付形态（如果有）。
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="text-faint">03</span>相关链接：现有产品、仓库、设计稿或参考。
+                  </li>
                 </ul>
               </div>
             </Reveal>
@@ -98,7 +102,11 @@ useSeoMeta({
                     <span class="block font-mono text-[11px] text-faint">github.com/Rouarn</span>
                   </span>
                 </span>
-                <ArrowUpRight :size="16" :stroke-width="1.5" class="text-faint transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+                <ArrowUpRight
+                  :size="16"
+                  :stroke-width="1.5"
+                  class="text-faint transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                />
               </a>
 
               <a
@@ -112,7 +120,11 @@ useSeoMeta({
                     <span class="block font-mono text-[11px] text-faint">{{ email }}</span>
                   </span>
                 </span>
-                <ArrowUpRight :size="16" :stroke-width="1.5" class="text-faint transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+                <ArrowUpRight
+                  :size="16"
+                  :stroke-width="1.5"
+                  class="text-faint transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+                />
               </a>
 
               <div class="mt-8 border-t border-line pt-5">

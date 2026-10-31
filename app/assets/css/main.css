@@ -5,8 +5,12 @@
 @import "@fontsource/instrument-serif/latin-400-italic.css";
 
 @theme {
-  --font-display: "Archivo Variable", "Archivo", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-  --font-sans: "Inter Variable", "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --font-display:
+    "Archivo Variable", "Archivo", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
+    "Microsoft YaHei", sans-serif;
+  --font-sans:
+    "Inter Variable", "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei",
+    sans-serif;
   --font-serif: "Instrument Serif", "Songti SC", "Noto Serif SC", Georgia, serif;
   --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
 

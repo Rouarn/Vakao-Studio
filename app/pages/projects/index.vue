@@ -1,41 +1,41 @@
 <script setup lang="ts">
-import { ArrowUpRight } from 'lucide-vue-next'
+import { ArrowUpRight } from "lucide-vue-next";
 
-const projects = await useProjects()
-const route = useRoute()
-const router = useRouter()
+const projects = await useProjects();
+const route = useRoute();
+const router = useRouter();
 
 const filters = [
-  { value: 'all', label: '全部' },
-  { value: 'platform', label: '平台' },
-  { value: 'desktop', label: '桌面' },
-  { value: 'mobile', label: '移动' },
-  { value: 'extension', label: '扩展' },
-  { value: 'library', label: '开源库' }
-]
+  { value: "all", label: "全部" },
+  { value: "platform", label: "平台" },
+  { value: "desktop", label: "桌面" },
+  { value: "mobile", label: "移动" },
+  { value: "extension", label: "扩展" },
+  { value: "library", label: "开源库" },
+];
 
 const active = computed(() => {
-  const type = route.query.type
-  return typeof type === 'string' && filters.some((item) => item.value === type) ? type : 'all'
-})
+  const type = route.query.type;
+  return typeof type === "string" && filters.some((item) => item.value === type) ? type : "all";
+});
 
 const filtered = computed(() => {
-  if (active.value === 'all') return projects.value
-  return projects.value.filter((project) => project.category === active.value)
-})
+  if (active.value === "all") return projects.value;
+  return projects.value.filter((project) => project.category === active.value);
+});
 
 const setType = (type: string) => {
-  router.push({ query: type === 'all' ? {} : { type } })
-}
+  router.push({ query: type === "all" ? {} : { type } });
+};
 
 useSeoMeta({
-  title: '项目 — VaKao',
-  description: 'VaKao 的作品档案：兰台、静态资源中心、点墨、WireDeck，以及浏览器扩展与内部开源库。',
-  ogTitle: '项目 — VaKao',
-  ogDescription: '平台、桌面、移动、扩展与开源库。',
-  ogImage: '/og/projects.png',
-  twitterCard: 'summary_large_image'
-})
+  title: "项目 — VaKao",
+  description: "VaKao 的作品档案：兰台、静态资源中心、点墨、WireDeck，以及浏览器扩展与内部开源库。",
+  ogTitle: "项目 — VaKao",
+  ogDescription: "平台、桌面、移动、扩展与开源库。",
+  ogImage: "/og/projects.png",
+  twitterCard: "summary_large_image",
+});
 </script>
 
 <template>
@@ -70,7 +70,9 @@ useSeoMeta({
               >
                 {{ filter.label }}
               </button>
-              <span class="hud ml-auto text-faint">{{ String(filtered.length).padStart(2, '0') }} ITEMS</span>
+              <span class="hud ml-auto text-faint"
+                >{{ String(filtered.length).padStart(2, "0") }} ITEMS</span
+              >
             </div>
           </Reveal>
         </div>
@@ -123,9 +125,14 @@ useSeoMeta({
 
     <section class="border-t border-line">
       <div class="frame">
-        <div class="flex flex-col gap-4 px-6 py-10 sm:flex-row sm:items-center sm:justify-between md:px-10">
+        <div
+          class="flex flex-col gap-4 px-6 py-10 sm:flex-row sm:items-center sm:justify-between md:px-10"
+        >
           <p class="text-sm text-muted">想聊某个项目的实现细节，或者一起做点新的？</p>
-          <a href="mailto:robot01@woyuxiaji.cn" class="hud link-underline inline-flex items-center gap-1.5 text-ink">
+          <a
+            href="mailto:robot01@woyuxiaji.cn"
+            class="hud link-underline inline-flex items-center gap-1.5 text-ink"
+          >
             写邮件
             <ArrowUpRight :size="13" :stroke-width="1.8" />
           </a>

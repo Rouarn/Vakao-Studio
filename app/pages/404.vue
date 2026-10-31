@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ArrowLeft, ArrowUpRight } from 'lucide-vue-next'
+import { ArrowLeft, ArrowUpRight } from "lucide-vue-next";
 
 useSeoMeta({
-  title: '页面不存在 — VaKao',
-  description: '这个页面没有找到。'
-})
+  title: "页面不存在 — VaKao",
+  description: "这个页面没有找到。",
+});
 </script>
 
 <template>

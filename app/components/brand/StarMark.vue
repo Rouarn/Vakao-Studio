@@ -1,21 +1,21 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    variant?: 'mono' | 'four'
-    size?: number | string
-    spin?: boolean
-    label?: string
+    variant?: "mono" | "four";
+    size?: number | string;
+    spin?: boolean;
+    label?: string;
   }>(),
   {
-    variant: 'mono',
+    variant: "mono",
     size: 24,
     spin: false,
-    label: ''
-  }
-)
+    label: "",
+  },
+);
 
 const petal =
-  'M 1024.000 1024.000 C 1024.000 1024.000 718.150 718.150 718.150 718.150 C 855.936 508.605 957.886 282.875 1024.000 40.960 C 1090.114 282.875 1192.064 508.605 1329.850 718.150 C 1329.850 718.150 1024.000 1024.000 1024.000 1024.000 Z'
+  "M 1024.000 1024.000 C 1024.000 1024.000 718.150 718.150 718.150 718.150 C 855.936 508.605 957.886 282.875 1024.000 40.960 C 1090.114 282.875 1192.064 508.605 1329.850 718.150 C 1329.850 718.150 1024.000 1024.000 1024.000 1024.000 Z";
 </script>
 
 <template>

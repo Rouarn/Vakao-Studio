@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const year = new Date().getFullYear()
+const year = new Date().getFullYear();
 </script>
 
 <template>
@@ -25,10 +25,22 @@ const year = new Date().getFullYear()
         <div class="md:col-span-2">
           <p class="hud text-faint">项目</p>
           <ul class="mt-5 space-y-3 text-sm">
-            <li><NuxtLink class="text-muted hover:text-ink" to="/projects/lantai">兰台</NuxtLink></li>
-            <li><NuxtLink class="text-muted hover:text-ink" to="/projects/static-hub">静态资源中心</NuxtLink></li>
-            <li><NuxtLink class="text-muted hover:text-ink" to="/projects/dianmo">点墨</NuxtLink></li>
-            <li><NuxtLink class="text-muted hover:text-ink" to="/projects/wiredeck">WireDeck</NuxtLink></li>
+            <li>
+              <NuxtLink class="text-muted hover:text-ink" to="/projects/lantai">兰台</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink class="text-muted hover:text-ink" to="/projects/static-hub"
+                >静态资源中心</NuxtLink
+              >
+            </li>
+            <li>
+              <NuxtLink class="text-muted hover:text-ink" to="/projects/dianmo">点墨</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink class="text-muted hover:text-ink" to="/projects/wiredeck"
+                >WireDeck</NuxtLink
+              >
+            </li>
           </ul>
         </div>
 

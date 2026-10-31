@@ -1,71 +1,71 @@
 <script setup lang="ts">
-import { ArrowUpRight, Boxes, Github, Globe2, Monitor, Smartphone } from 'lucide-vue-next'
+import { ArrowUpRight, Boxes, Github, Globe2, Monitor, Smartphone } from "lucide-vue-next";
 
-const projects = await useProjects()
-const featured = computed(() => projects.value.filter((project) => project.featured).slice(0, 4))
+const projects = await useProjects();
+const featured = computed(() => projects.value.filter((project) => project.featured).slice(0, 4));
 
 const capabilities = [
   {
     icon: Globe2,
-    title: 'Web 平台',
-    copy: '后台、内容站与工具型产品。重视权限、可观测性与部署成本。',
-    tags: ['Vue 3', 'NestJS', 'GoFrame']
+    title: "Web 平台",
+    copy: "后台、内容站与工具型产品。重视权限、可观测性与部署成本。",
+    tags: ["Vue 3", "NestJS", "GoFrame"],
   },
   {
     icon: Monitor,
-    title: '桌面工具',
-    copy: '把命令行能力包成可用的桌面应用，覆盖 macOS 与 Windows。',
-    tags: ['Wails', 'Go', 'Tauri']
+    title: "桌面工具",
+    copy: "把命令行能力包成可用的桌面应用，覆盖 macOS 与 Windows。",
+    tags: ["Wails", "Go", "Tauri"],
   },
   {
     icon: Smartphone,
-    title: '移动应用',
-    copy: 'uni-app 与原生 Android，关注弱网、更新链路与真实设备上的手感。',
-    tags: ['uni-app', 'Kotlin', 'Android']
+    title: "移动应用",
+    copy: "uni-app 与原生 Android，关注弱网、更新链路与真实设备上的手感。",
+    tags: ["uni-app", "Kotlin", "Android"],
   },
   {
     icon: Boxes,
-    title: '基础设施与开源库',
-    copy: '请求层、Socket 协议、脚本工具与静态资源系统，收掉重复的脏活。',
-    tags: ['TypeScript', 'NestJS', 'CI']
-  }
-]
+    title: "基础设施与开源库",
+    copy: "请求层、Socket 协议、脚本工具与静态资源系统，收掉重复的脏活。",
+    tags: ["TypeScript", "NestJS", "CI"],
+  },
+];
 
 const steps = [
-  { title: '定义', copy: '先确认谁会用、在什么场景用、哪些事不做。' },
-  { title: '原型', copy: '用最小的可运行版本验证交互与数据流，不先堆页面。' },
-  { title: '实现', copy: '把边界、错误与部署一起做完，而不是留到最后。' },
-  { title: '交付与维护', copy: '写清楚怎么跑、怎么发、怎么回滚，再交给下一个人。' }
-]
+  { title: "定义", copy: "先确认谁会用、在什么场景用、哪些事不做。" },
+  { title: "原型", copy: "用最小的可运行版本验证交互与数据流，不先堆页面。" },
+  { title: "实现", copy: "把边界、错误与部署一起做完，而不是留到最后。" },
+  { title: "交付与维护", copy: "写清楚怎么跑、怎么发、怎么回滚，再交给下一个人。" },
+];
 
 const libraries = [
   {
-    name: '@vakao-ui/axios',
-    copy: '统一信封、401 单飞刷新、重复请求取消与全局 loading。',
-    meta: '0.0.2'
+    name: "@vakao-ui/axios",
+    copy: "统一信封、401 单飞刷新、重复请求取消与全局 loading。",
+    meta: "0.0.2",
   },
   {
-    name: '@vakao-ui/socket-system',
-    copy: '连接管理、自动重连、房间恢复、标准化消息与错误出口。',
-    meta: 'TypeScript'
+    name: "@vakao-ui/socket-system",
+    copy: "连接管理、自动重连、房间恢复、标准化消息与错误出口。",
+    meta: "TypeScript",
   },
   {
-    name: '@vakao-ui/scripts-utils',
-    copy: '终端颜色、图标、ASCII 横幅与构建脚本的常用工具。',
-    meta: 'CLI'
-  }
-]
+    name: "@vakao-ui/scripts-utils",
+    copy: "终端颜色、图标、ASCII 横幅与构建脚本的常用工具。",
+    meta: "CLI",
+  },
+];
 
 useSeoMeta({
-  title: 'VaKao — 把想法做成每天都在用的工具',
+  title: "VaKao — 把想法做成每天都在用的工具",
   description:
-    'VaKao 是一个做 Web 平台、桌面工具、移动应用与开源库的小团队。兰台、静态资源中心、点墨、WireDeck。',
-  ogTitle: 'VaKao — 把想法做成每天都在用的工具',
-  ogDescription: '一个小团队，做 Web 平台、桌面工具、移动应用与开源库。',
-  ogImage: '/og/home.png',
-  ogType: 'website',
-  twitterCard: 'summary_large_image'
-})
+    "VaKao 是一个做 Web 平台、桌面工具、移动应用与开源库的小团队。兰台、静态资源中心、点墨、WireDeck。",
+  ogTitle: "VaKao — 把想法做成每天都在用的工具",
+  ogDescription: "一个小团队，做 Web 平台、桌面工具、移动应用与开源库。",
+  ogImage: "/og/home.png",
+  ogType: "website",
+  twitterCard: "summary_large_image",
+});
 </script>
 
 <template>
@@ -75,7 +75,9 @@ useSeoMeta({
       <div class="grid-paper pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
       <div class="frame relative">
         <div class="grid min-h-[620px] md:grid-cols-12">
-          <div class="relative z-10 flex flex-col justify-center px-6 py-16 md:col-span-7 md:px-10 md:py-24">
+          <div
+            class="relative z-10 flex flex-col justify-center px-6 py-16 md:col-span-7 md:px-10 md:py-24"
+          >
             <Reveal>
               <p class="hud flex flex-wrap items-center gap-x-4 gap-y-2 text-muted">
                 <span class="text-faint">VAKAO / INDEPENDENT STUDIO</span>
@@ -97,7 +99,8 @@ useSeoMeta({
                 Tools we actually use.
               </p>
               <p class="mt-6 max-w-xl text-base leading-8 text-muted">
-                VaKao 是一个做 Web 平台、桌面工具与移动应用的小团队。我们关心实现细节，也关心它是否真的有人用。
+                VaKao 是一个做 Web
+                平台、桌面工具与移动应用的小团队。我们关心实现细节，也关心它是否真的有人用。
               </p>
             </Reveal>
 
@@ -160,7 +163,9 @@ useSeoMeta({
           </div>
         </div>
 
-        <div class="flex flex-wrap items-center justify-between gap-3 border-t border-line px-6 py-4 md:px-10">
+        <div
+          class="flex flex-wrap items-center justify-between gap-3 border-t border-line px-6 py-4 md:px-10"
+        >
           <p class="hud text-faint">SCROLL TO EXPLORE</p>
           <p class="hud text-faint">兰台 · 静态资源中心 · 点墨 · WireDeck</p>
         </div>
@@ -182,7 +187,10 @@ useSeoMeta({
               </p>
             </Reveal>
             <Reveal :delay="100">
-              <NuxtLink to="/projects" class="hud link-underline inline-flex items-center gap-1.5 text-muted hover:text-ink">
+              <NuxtLink
+                to="/projects"
+                class="hud link-underline inline-flex items-center gap-1.5 text-muted hover:text-ink"
+              >
                 全部项目
                 <ArrowUpRight :size="13" :stroke-width="1.8" />
               </NuxtLink>
@@ -261,7 +269,9 @@ useSeoMeta({
               >
                 <span class="font-display text-2xl font-medium text-faint">0{{ index + 1 }}</span>
                 <h3 class="font-display text-xl font-semibold text-strong">{{ step.title }}</h3>
-                <p class="col-start-2 text-sm leading-7 text-muted sm:col-start-3">{{ step.copy }}</p>
+                <p class="col-start-2 text-sm leading-7 text-muted sm:col-start-3">
+                  {{ step.copy }}
+                </p>
               </Reveal>
             </div>
           </div>
@@ -281,7 +291,8 @@ useSeoMeta({
                 把重复的脏活，<br />收进三个小库。
               </h2>
               <p class="mt-5 max-w-md text-sm leading-7 text-muted">
-                请求层、Socket 协议、构建脚本。它们不追求成为通用框架，只解决团队项目里反复出现的那几个问题。
+                请求层、Socket
+                协议、构建脚本。它们不追求成为通用框架，只解决团队项目里反复出现的那几个问题。
               </p>
               <a
                 href="https://github.com/Rouarn"
@@ -304,7 +315,9 @@ useSeoMeta({
                 class="group flex flex-col gap-2 border-b border-line py-6 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
-                  <h3 class="font-mono text-sm text-strong transition-colors group-hover:text-accent-ink">
+                  <h3
+                    class="font-mono text-sm text-strong transition-colors group-hover:text-accent-ink"
+                  >
                     {{ lib.name }}
                   </h3>
                   <p class="mt-2 max-w-lg text-sm leading-6 text-muted">{{ lib.copy }}</p>
@@ -328,9 +341,13 @@ useSeoMeta({
                 小团队，<br />但不做小东西。
               </h2>
               <p class="mt-6 max-w-xl text-base leading-8 text-muted">
-                VaKao 是一个远程协作的小团队。我们做产品，也做支撑产品的工具：需要平台就写后端，需要效率就写扩展，需要发布就写更新服务。
+                VaKao
+                是一个远程协作的小团队。我们做产品，也做支撑产品的工具：需要平台就写后端，需要效率就写扩展，需要发布就写更新服务。
               </p>
-              <NuxtLink to="/about" class="hud link-underline mt-7 inline-flex items-center gap-1.5 text-muted hover:text-ink">
+              <NuxtLink
+                to="/about"
+                class="hud link-underline mt-7 inline-flex items-center gap-1.5 text-muted hover:text-ink"
+              >
                 关于团队
                 <ArrowUpRight :size="13" :stroke-width="1.8" />
               </NuxtLink>
@@ -339,7 +356,15 @@ useSeoMeta({
 
           <div class="md:col-span-5">
             <Reveal :delay="100" class="border-t border-line">
-              <div v-for="(value, index) in ['先能跑，再好看', '边界写进代码，不写进口号', '部署与回滚是功能的一部分']" :key="value" class="flex gap-4 border-b border-line py-5">
+              <div
+                v-for="(value, index) in [
+                  '先能跑，再好看',
+                  '边界写进代码，不写进口号',
+                  '部署与回滚是功能的一部分',
+                ]"
+                :key="value"
+                class="flex gap-4 border-b border-line py-5"
+              >
                 <span class="hud shrink-0 text-faint">0{{ index + 1 }}</span>
                 <p class="text-sm leading-7 text-ink">{{ value }}</p>
               </div>
@@ -367,10 +392,7 @@ useSeoMeta({
               有想做的工具、需要补的技术债，或者只是想聊聊实现细节，都欢迎写邮件。
             </p>
             <div class="mt-9 flex flex-wrap gap-3">
-              <a
-                href="mailto:robot01@woyuxiaji.cn"
-                class="btn btn-cta-primary"
-              >
+              <a href="mailto:robot01@woyuxiaji.cn" class="btn btn-cta-primary">
                 写邮件
                 <ArrowUpRight :size="15" :stroke-width="1.8" />
               </a>

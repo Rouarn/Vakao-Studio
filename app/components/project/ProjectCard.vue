@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { ArrowUpRight } from 'lucide-vue-next'
-import type { Project } from '~/types'
+import { ArrowUpRight } from "lucide-vue-next";
+import type { Project } from "~/types";
 
 const props = defineProps<{
-  project: Project
-  index: number
-}>()
+  project: Project;
+  index: number;
+}>();
 
 const onPointer = (event: PointerEvent) => {
-  const el = event.currentTarget as HTMLElement | null
-  if (!el) return
-  const rect = el.getBoundingClientRect()
-  el.style.setProperty('--mx', `${event.clientX - rect.left}px`)
-  el.style.setProperty('--my', `${event.clientY - rect.top}px`)
-}
+  const el = event.currentTarget as HTMLElement | null;
+  if (!el) return;
+  const rect = el.getBoundingClientRect();
+  el.style.setProperty("--mx", `${event.clientX - rect.left}px`);
+  el.style.setProperty("--my", `${event.clientY - rect.top}px`);
+};
 
 const statusTone = computed(() => {
-  if (props.project.status === 'active') return 'bg-emerald-500'
-  if (props.project.status === 'maintained') return 'bg-[var(--proj)]'
-  return 'bg-faint'
-})
+  if (props.project.status === "active") return "bg-emerald-500";
+  if (props.project.status === "maintained") return "bg-[var(--proj)]";
+  return "bg-faint";
+});
 </script>
 
 <template>
@@ -33,7 +33,7 @@ const statusTone = computed(() => {
 
     <div class="flex items-center justify-between gap-3 border-b border-line px-4 py-3 sm:px-5">
       <div class="flex items-center gap-3">
-        <span class="hud text-faint">{{ String(index + 1).padStart(2, '0') }}</span>
+        <span class="hud text-faint">{{ String(index + 1).padStart(2, "0") }}</span>
         <span class="hud text-muted">{{ project.categoryLabel }}</span>
       </div>
       <div class="flex items-center gap-2">
@@ -47,7 +47,9 @@ const statusTone = computed(() => {
     <div class="flex flex-1 flex-col p-4 sm:p-5">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h3 class="display text-2xl text-strong transition-colors group-hover:text-[var(--proj-ink)] sm:text-[1.75rem]">
+          <h3
+            class="display text-2xl text-strong transition-colors group-hover:text-[var(--proj-ink)] sm:text-[1.75rem]"
+          >
             {{ project.title }}
           </h3>
           <p v-if="project.titleEn" class="hud mt-2 text-faint">{{ project.titleEn }}</p>
@@ -69,7 +71,9 @@ const statusTone = computed(() => {
         >
           {{ tag }}
         </span>
-        <span class="ml-auto font-mono text-[10px] tracking-wide text-faint">{{ project.year }}</span>
+        <span class="ml-auto font-mono text-[10px] tracking-wide text-faint">{{
+          project.year
+        }}</span>
       </div>
     </div>
   </NuxtLink>
