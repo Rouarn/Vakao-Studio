@@ -107,7 +107,8 @@ function layoutLabelChars(label: Label) {
     const tween = gsap.to(proxy, {
       p: 1,
       duration: 0.9,
-      delay: i * 0.055,
+      // Right-to-left: the last letter leads, then each preceding letter follows.
+      delay: (chars.length - 1 - i) * 0.06,
       ease: "power3.inOut",
       onUpdate: () => {
         const t = proxy.p;
