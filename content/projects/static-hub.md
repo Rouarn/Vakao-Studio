@@ -22,7 +22,8 @@ stack:
 accent: purple
 featured: true
 order: 2
-links: {}
+links:
+  github: https://github.com/Rouarn/VakaoStaticHub
 metrics:
   - label: 上传方式
     value: "5MB 分片"

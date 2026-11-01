@@ -20,7 +20,8 @@ stack:
 accent: blue
 featured: false
 order: 5
-links: {}
+links:
+  github: https://github.com/Rouarn/VideoSpeedControl
 metrics:
   - label: 核心操作
     value: "键盘优先"

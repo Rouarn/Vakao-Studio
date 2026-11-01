@@ -15,6 +15,7 @@ const open = ref(false);
 
 const links = [
   { label: "项目", to: "/projects" },
+  { label: "开源", to: "/open-source" },
   { label: "团队", to: "/about" },
   { label: "联系", to: "/contact" },
 ];

@@ -48,6 +48,7 @@ const year = new Date().getFullYear();
           <p class="hud text-faint">更多</p>
           <ul class="mt-5 space-y-3 text-sm">
             <li><NuxtLink class="text-muted hover:text-ink" to="/projects">全部项目</NuxtLink></li>
+            <li><NuxtLink class="text-muted hover:text-ink" to="/open-source">开源项目</NuxtLink></li>
             <li><NuxtLink class="text-muted hover:text-ink" to="/about">关于团队</NuxtLink></li>
             <li><NuxtLink class="text-muted hover:text-ink" to="/contact">联系</NuxtLink></li>
             <li>

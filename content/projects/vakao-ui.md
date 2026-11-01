@@ -2,8 +2,8 @@
 title: VaKao UI
 titleEn: VAKAO UI / INTERNAL LIBS
 slug: vakao-ui
-tagline: 三个小库，把团队项目里重复的脏活收掉。
-summary: 团队内部的前端基础设施：@vakao-ui/axios 统一请求与 401 刷新，@vakao-ui/socket-system 提供类型安全的 Socket 协议，@vakao-ui/scripts-utils 收敛构建脚本的终端输出。
+tagline: 四个小库，把团队项目里重复的脏活收掉。
+summary: 团队内部的前端基础设施：@vakao-ui/axios 统一请求与 401 刷新，@vakao-ui/socket-system 提供类型安全的 Socket 协议，@vakao-ui/scripts-utils 收敛构建脚本的终端输出，vakao-ui 提供 Vue 3 组件。
 category: library
 categoryLabel: 开源库
 status: active
@@ -22,10 +22,10 @@ accent: blue
 featured: false
 order: 7
 links:
-  github: https://github.com/Rouarn
+  github: https://github.com/Rouarn/VakaoUI
 metrics:
   - label: 包数量
-    value: "3 个"
+    value: "4 个"
   - label: 请求层
     value: "0.0.2"
   - label: 框架绑定
@@ -49,6 +49,7 @@ related:
 - **`@vakao-ui/axios`**：`createClient` 一次性配置 baseURL、超时、鉴权头、刷新与错误出口；401 只刷新一次，失败的请求排队重放。
 - **`@vakao-ui/socket-system`**：把连接、重连、房间恢复、消息编解码与错误处理收进一个无框架的客户端，测试用假传输与虚拟时钟。
 - **`@vakao-ui/scripts-utils`**：统一终端颜色、图标、横幅与日志，让不同项目的构建输出看起来像一家人。
+- **`vakao-ui`**：Vue 3 + TypeScript 组件库，承接团队页面里反复出现的交互与视觉约定。
 
 ## 现状
 

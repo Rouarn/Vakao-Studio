@@ -54,6 +54,11 @@ const libraries = [
     copy: "终端颜色、图标、ASCII 横幅与构建脚本的常用工具。",
     meta: "CLI",
   },
+  {
+    name: "vakao-ui",
+    copy: "Vue 3 + TypeScript 组件库，承接团队页面里反复出现的交互与视觉约定。",
+    meta: "Vue 3",
+  },
 ];
 
 useSeoMeta({
@@ -130,7 +135,7 @@ useSeoMeta({
                 </div>
                 <div>
                   <dt class="hud text-faint">开源库</dt>
-                  <dd class="mt-2 font-display text-2xl font-medium text-strong">03</dd>
+                  <dd class="mt-2 font-display text-2xl font-medium text-strong">04</dd>
                 </div>
                 <div>
                   <dt class="hud text-faint">工作方式</dt>
@@ -281,18 +286,18 @@ useSeoMeta({
 
     <!-- Open source -->
     <section id="open-source">
-      <SectionBar index="04" label="OPEN SOURCE" meta="3 个内部库" />
+      <SectionBar index="04" label="OPEN SOURCE" meta="4 个内部库 · 28 个公开仓库" />
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
           <div class="md:col-span-5">
             <Reveal>
               <p class="hud text-accent-ink">BUILD SMALL, SHARE THE PARTS</p>
               <h2 class="display mt-5 text-[clamp(2.2rem,4.5vw,3.5rem)] text-strong">
-                把重复的脏活，<br />收进三个小库。
+                把重复的脏活，<br />收进四个小库。
               </h2>
               <p class="mt-5 max-w-md text-sm leading-7 text-muted">
                 请求层、Socket
-                协议、构建脚本。它们不追求成为通用框架，只解决团队项目里反复出现的那几个问题。
+                协议、构建脚本与组件。它们不追求成为通用框架，只解决团队项目里反复出现的那几个问题。
               </p>
               <a
                 href="https://github.com/Rouarn"
@@ -303,6 +308,10 @@ useSeoMeta({
                 <Github :size="15" :stroke-width="1.5" />
                 在 GitHub 查看
               </a>
+              <NuxtLink to="/open-source" class="btn btn-ghost mt-3">
+                全部开源项目
+                <ArrowUpRight :size="15" :stroke-width="1.8" />
+              </NuxtLink>
             </Reveal>
           </div>
 
