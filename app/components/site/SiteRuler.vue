@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
 type SectionDef = { key: string; label: string; el: HTMLElement };
 type Phase = "queued" | "riding" | "top";
@@ -13,6 +13,7 @@ const QUEUE_CLEAR = 150;
 
 const route = useRoute();
 const nuxtApp = useNuxtApp();
+const showLabels = computed(() => route.path === "/" || route.path === "");
 const rail = ref<HTMLElement | null>(null);
 const ready = ref(false);
 const visible = ref(false);
@@ -133,6 +134,11 @@ function reduced() {
 }
 
 function buildSections() {
+  if (!showLabels.value) {
+    defs.value = [];
+    tops = [];
+    return;
+  }
   const root = document.querySelector("main") || document.body;
   let nodes = Array.from(
     root.querySelectorAll<HTMLElement>("[data-ruler-section], section[id], section"),
@@ -239,6 +245,10 @@ function update() {
     index: r.index,
   }));
 
+  if (!showLabels.value) {
+    labels.value = [];
+    return;
+  }
   for (const item of labels.value) {
     const el = labelEls.get(item.key);
     if (el) el.style.top = `${item.y}px`;
@@ -406,7 +416,7 @@ onBeforeUnmount(() => {
     />
 
     <!-- Moving chapter headings: bottom queue -> vertical ride -> top pile. -->
-    <div class="ruler-labels" :class="{ 'is-open': visible }">
+    <div v-if="showLabels" class="ruler-labels" :class="{ 'is-open': visible }">
       <button
         v-for="item in labels"
         :key="item.key"
