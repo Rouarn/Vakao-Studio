@@ -34,9 +34,6 @@ let gsap: any = null;
 const labelEls = new Map<string, HTMLElement>();
 const charEls = new Map<string, HTMLElement[]>();
 const charData = new Map<string, { font: string; horizontal: Vec[]; vertical: Vec[] }>();
-const prevPhase = new Map<string, Phase>();
-const prevY = new Map<string, number>();
-const entryFrom = new Map<string, number>();
 const FLIP_ZONE = 260;
 const STAGGER = 0.42;
 let measureCanvas: HTMLCanvasElement | null = null;
@@ -189,8 +186,7 @@ function update() {
     const v = anchor - y;
     if (anchor <= marker) active = index;
     let phase: Phase;
-    if (y < 120) phase = "queued";
-    else if (v <= threshold) phase = "top";
+    if (v <= threshold) phase = "top";
     else if (v < vh - QUEUE_PAD - QUEUE_CLEAR) phase = "riding";
     else phase = "queued";
     const entryStart = vh - QUEUE_PAD - QUEUE_CLEAR;
@@ -222,15 +218,11 @@ function update() {
 
   const riding = records.filter((r) => r.phase === "riding");
   for (const item of riding) {
-    const key = item.section.key;
-    const previousPhase = prevPhase.get(key);
-    if (previousPhase !== "riding") {
-      entryFrom.set(key, prevY.get(key) ?? item.v);
-    }
-    const start = entryFrom.get(key) ?? item.v;
-    const entry = item.v > threshold + FLIP_ZONE;
-    item.y = entry && item.flip < 1
-      ? start + (item.v - start) * easeInOutCubic(item.flip)
+    const queueY =
+      vh - QUEUE_PAD - (defs.value.length - 1 - item.index) * QUEUE_SLOT;
+    const entering = item.v > threshold + FLIP_ZONE;
+    item.y = entering && item.flip < 1
+      ? queueY + (item.v - queueY) * easeInOutCubic(item.flip)
       : item.v;
     item.active = item.index === active;
   }
@@ -252,8 +244,6 @@ function update() {
   for (const item of labels.value) {
     const el = labelEls.get(item.key);
     if (el) el.style.top = `${item.y}px`;
-    prevPhase.set(item.key, item.phase);
-    prevY.set(item.key, item.y);
   }
   updateAllChars();
 }
@@ -354,9 +344,6 @@ async function syncRoute() {
     const signature = defs.value.map((d) => d.label).join("|");
     if (signature !== previous || attempt === 15) {
       lastSignature = signature;
-      prevPhase.clear();
-      prevY.clear();
-      entryFrom.clear();
       charData.clear();
       measure();
       update();
