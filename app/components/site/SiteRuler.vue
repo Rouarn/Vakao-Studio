@@ -3,7 +3,7 @@ import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
 type SectionDef = { key: string; label: string; el: HTMLElement };
 type Phase = "queued" | "riding" | "top";
-type Label = { key: string; label: string; phase: Phase; y: number; active: boolean; index: number };
+type Label = { key: string; label: string; phase: Phase; y: number; flip: number; active: boolean; index: number };
 
 const NAV_H = 48;
 const TOP_PAD = 64;
@@ -33,12 +33,14 @@ let lastSignature = "";
 let gsap: any = null;
 const labelEls = new Map<string, HTMLElement>();
 const charEls = new Map<string, HTMLElement[]>();
-const charPositions = new Map<string, { x: number; y: number; rot: number }[]>();
-const charTweens = new Map<string, any[]>();
-const prevPhases = new Map<string, Phase>();
+const charData = new Map<string, { font: string; horizontal: Vec[]; vertical: Vec[] }>();
 const topSetters = new Map<string, (value: number) => void>();
 const topSeen = new Set<string>();
+const FLIP_ZONE = 220;
+const STAGGER = 0.58;
 let measureCanvas: HTMLCanvasElement | null = null;
+
+type Vec = { x: number; y: number; rot: number };
 
 function setLabelEl(key: string, el: unknown) {
   if (el instanceof HTMLElement) labelEls.set(key, el);
@@ -61,7 +63,7 @@ function setLabelTop(key: string, value: number) {
     if (gsap) {
       topSetters.set(
         key,
-        gsap.quickTo(el, "top", { duration: 0.3, ease: "power2.out" }),
+        gsap.quickTo(el, "top", { duration: 0.22, ease: "power2.out" }),
       );
     }
     return;
@@ -81,76 +83,68 @@ function textWidths(el: HTMLElement, text: string) {
   return [...text].map((char) => ctx.measureText(char).width + spacing);
 }
 
-function targetsFor(label: Label, widths: number[]) {
-  const total = widths.reduce((a, b) => a + b, 0);
-  let cursor = 0;
-  return widths.map((width, index) => {
-    const item =
-      label.phase === "riding"
-        ? { x: -width / 2, y: total - cursor - width / 2, rot: -90 }
-        : { x: -(total - cursor - width), y: 0, rot: 0 };
-    cursor += width;
-    return { ...item, index };
-  });
-}
-
-function applyTransform(el: HTMLElement, x: number, y: number, rot: number) {
-  el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
-}
-
-function layoutLabelChars(label: Label) {
+function ensureCharData(label: Label) {
   const el = labelEls.get(label.key);
   const chars = charEls.get(label.key);
   if (!el || !chars?.length) return;
+  const cs = getComputedStyle(el);
+  const font = `${cs.fontSize}|${cs.fontWeight}|${cs.fontFamily}|${label.label}`;
+  const previous = charData.get(label.key);
+  if (previous?.font === font) return;
+
   const widths = textWidths(el, label.label);
-  const target = targetsFor(label, widths);
-  const current = charPositions.get(label.key);
-  const reducedMotion = reduced();
-  const nextPositions: { x: number; y: number; rot: number }[] = [];
+  const total = widths.reduce((a, b) => a + b, 0);
+  let cursor = 0;
+  const horizontal: Vec[] = [];
+  const vertical: Vec[] = [];
+  for (let i = 0; i < widths.length; i += 1) {
+    const width = widths[i] ?? 0;
+    horizontal.push({ x: -(total - cursor - width), y: 0, rot: 0 });
+    vertical.push({ x: -width / 2, y: total - cursor - width / 2, rot: -90 });
+    cursor += width;
+  }
+  charData.set(label.key, { font, horizontal, vertical });
+}
 
-  const oldTweens = charTweens.get(label.key);
-  oldTweens?.forEach((tween) => tween?.kill?.());
+function clamp01(value: number) {
+  return Math.max(0, Math.min(1, value));
+}
 
-  const tweens: any[] = [];
-  for (let i = 0; i < chars.length; i += 1) {
+function easeInOutCubic(value: number) {
+  return value < 0.5
+    ? 4 * value * value * value
+    : 1 - Math.pow(-2 * value + 2, 3) / 2;
+}
+
+function updateCharFlip(label: Label) {
+  const chars = charEls.get(label.key);
+  if (!chars?.length) return;
+  ensureCharData(label);
+  const data = charData.get(label.key);
+  if (!data) return;
+  const n = chars.length;
+
+  for (let i = 0; i < n; i += 1) {
     const node = chars[i];
     if (!node) continue;
-    const end = target[i];
-    if (!end) continue;
-    const start = current?.[i] ?? end;
-    if (reducedMotion || !gsap) {
-      applyTransform(node, end.x, end.y, end.rot);
-      nextPositions[i] = end;
-      continue;
-    }
-    const proxy = { p: 0 };
-    const arc = label.phase === "riding" ? -30 : 30;
-    const tween = gsap.to(proxy, {
-      p: 1,
-      duration: 0.9,
-      // Right-to-left: the last letter leads, then each preceding letter follows.
-      delay: (chars.length - 1 - i) * 0.06,
-      ease: "power3.inOut",
-      onUpdate: () => {
-        const t = proxy.p;
-        const bow = Math.sin(Math.PI * t) * arc;
-        const x = start.x + (end.x - start.x) * t + bow;
-        const y = start.y + (end.y - start.y) * t;
-        applyTransform(node, x, y, start.rot + (end.rot - start.rot) * t);
-        const list = charPositions.get(label.key) ?? [];
-        list[i] = { x, y, rot: start.rot + (end.rot - start.rot) * t };
-        charPositions.set(label.key, list);
-      },
-      onComplete: () => {
-        applyTransform(node, end.x, end.y, end.rot);
-        const list = charPositions.get(label.key) ?? [];
-        list[i] = end;
-        charPositions.set(label.key, list);
-      },
-    });
-    tweens.push(tween);
+    const h = data.horizontal[i];
+    const v = data.vertical[i];
+    if (!h || !v) continue;
+
+    // Last character starts first; earlier characters enter later.
+    const start = ((n - 1 - i) / Math.max(1, n - 1)) * STAGGER;
+    const local = clamp01((label.flip - start) / (1 - STAGGER));
+    const eased = easeInOutCubic(local);
+    const bow = Math.sin(Math.PI * eased) * 34;
+    const x = h.x + (v.x - h.x) * eased + bow;
+    const y = h.y + (v.y - h.y) * eased;
+    const rot = h.rot + (v.rot - h.rot) * eased;
+    node.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
   }
-  charTweens.set(label.key, tweens);
+}
+
+function updateAllChars() {
+  for (const label of labels.value) updateCharFlip(label);
 }
 
 function reduced() {
@@ -212,7 +206,17 @@ function update() {
     else if (v <= threshold) phase = "top";
     else if (v < vh - QUEUE_PAD - QUEUE_CLEAR) phase = "riding";
     else phase = "queued";
-    return { section, index, anchor, v, phase, active: false, y: 0 };
+    const entryStart = vh - QUEUE_PAD - QUEUE_CLEAR;
+    const entryEnd = entryStart - FLIP_ZONE;
+    const exitStart = threshold + FLIP_ZONE;
+    const exitEnd = threshold;
+    let flip = 0;
+    if (v >= entryStart) flip = 0;
+    else if (v >= entryEnd) flip = (entryStart - v) / FLIP_ZONE;
+    else if (v > exitStart) flip = 1;
+    else if (v > exitEnd) flip = (v - exitEnd) / FLIP_ZONE;
+    if (phase !== "riding") flip = 0;
+    return { section, index, anchor, v, phase, flip, active: false, y: 0 };
   });
 
   const top = records.filter((r) => r.phase === "top");
@@ -240,16 +244,14 @@ function update() {
     label: r.section.label,
     phase: r.phase,
     y: r.y,
+    flip: r.flip,
     active: r.active,
     index: r.index,
   }));
 
-  for (const item of labels.value) {
-    setLabelTop(item.key, item.y);
-    if (prevPhases.get(item.key) === item.phase) continue;
-    prevPhases.set(item.key, item.phase);
-    window.requestAnimationFrame(() => layoutLabelChars(item));
-  }
+  for (const item of labels.value) setLabelTop(item.key, item.y);
+  updateAllChars();
+  window.requestAnimationFrame(updateAllChars);
 }
 
 function schedule() {
@@ -350,8 +352,7 @@ async function syncRoute() {
       lastSignature = signature;
       topSetters.clear();
       topSeen.clear();
-      charPositions.clear();
-      prevPhases.clear();
+      charData.clear();
       measure();
       update();
       return;
