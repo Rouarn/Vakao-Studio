@@ -64,9 +64,9 @@ const libraries = [
 useSeoMeta({
   title: "VaKao — 把想法做成每天都在用的工具",
   description:
-    "VaKao 是一个做 Web 平台、桌面工具、移动应用与开源库的小团队。兰台、静态资源中心、点墨、WireDeck。",
+    "VaKao 是一个做 Web 平台、桌面工具、移动应用、浏览器扩展与开源库的小团队。兰台、静态资源中心、点墨、WireDeck，以及浏览器扩展与开源基础设施。",
   ogTitle: "VaKao — 把想法做成每天都在用的工具",
-  ogDescription: "一个小团队，做 Web 平台、桌面工具、移动应用与开源库。",
+  ogDescription: "一个小团队，做 Web 平台、桌面工具、移动应用、浏览器扩展与开源库。",
   ogImage: "/og/home.png",
   ogType: "website",
   twitterCard: "summary_large_image",
@@ -105,7 +105,7 @@ useSeoMeta({
               </p>
               <p class="mt-6 max-w-xl text-base leading-8 text-muted">
                 VaKao 是一个做 Web
-                平台、桌面工具与移动应用的小团队。我们关心实现细节，也关心它是否真的有人用。
+                平台、桌面工具、移动应用、浏览器扩展与开源库的小团队。我们关心实现细节，也关心它是否真的有人用。
               </p>
             </Reveal>
 
@@ -130,12 +130,12 @@ useSeoMeta({
             <Reveal :delay="320">
               <dl class="mt-12 grid max-w-xl grid-cols-3 gap-4 border-t border-line pt-5">
                 <div>
-                  <dt class="hud text-faint">产品</dt>
-                  <dd class="mt-2 font-display text-2xl font-medium text-strong">04</dd>
+                  <dt class="hud text-faint">项目</dt>
+                  <dd class="mt-2 font-display text-2xl font-medium text-strong">07</dd>
                 </div>
                 <div>
-                  <dt class="hud text-faint">开源库</dt>
-                  <dd class="mt-2 font-display text-2xl font-medium text-strong">04</dd>
+                  <dt class="hud text-faint">公开仓库</dt>
+                  <dd class="mt-2 font-display text-2xl font-medium text-strong">28</dd>
                 </div>
                 <div>
                   <dt class="hud text-faint">工作方式</dt>
@@ -299,19 +299,21 @@ useSeoMeta({
                 请求层、Socket
                 协议、构建脚本与组件。它们不追求成为通用框架，只解决团队项目里反复出现的那几个问题。
               </p>
-              <a
-                href="https://github.com/Rouarn"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-ghost mt-7"
-              >
-                <Github :size="15" :stroke-width="1.5" />
-                在 GitHub 查看
-              </a>
-              <NuxtLink to="/open-source" class="btn btn-ghost mt-3">
-                全部开源项目
-                <ArrowUpRight :size="15" :stroke-width="1.8" />
-              </NuxtLink>
+              <div class="mt-7 flex flex-wrap gap-3">
+                <a
+                  href="https://github.com/Rouarn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-ghost"
+                >
+                  <Github :size="15" :stroke-width="1.5" />
+                  在 GitHub 查看
+                </a>
+                <NuxtLink to="/open-source" class="btn btn-ghost">
+                  全部开源项目
+                  <ArrowUpRight :size="15" :stroke-width="1.8" />
+                </NuxtLink>
+              </div>
             </Reveal>
           </div>
 
@@ -389,8 +391,8 @@ useSeoMeta({
         <div class="relative overflow-hidden px-6 py-16 md:px-10 md:py-24">
           <StarMark
             variant="four"
-            :size="320"
-            class="cta-star pointer-events-none absolute -right-16 -top-16 opacity-30"
+            :size="280"
+            class="cta-star pointer-events-none absolute right-6 bottom-6 hidden opacity-20 md:block"
           />
           <Reveal>
             <p class="hud opacity-50">START A CONVERSATION</p>
