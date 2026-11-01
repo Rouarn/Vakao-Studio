@@ -78,7 +78,7 @@ useHead({
 
 <template>
   <div :class="`accent-${current.accent}`">
-    <section class="border-b border-line">
+    <section data-ruler-label="PROJECT" class="border-b border-line">
       <div class="frame">
         <div class="px-6 pt-8 md:px-10">
           <NuxtLink
@@ -163,7 +163,7 @@ useHead({
       </div>
     </section>
 
-    <section>
+    <section data-ruler-label="OVERVIEW">
       <div class="frame">
         <div class="grid gap-12 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
           <div class="md:col-span-8">
@@ -227,7 +227,7 @@ useHead({
       </div>
     </section>
 
-    <section v-if="current.features.length" class="border-t border-line">
+    <section data-ruler-label="FEATURES" v-if="current.features.length" class="border-t border-line">
       <div class="frame">
         <div class="px-6 py-14 md:px-10 md:py-20">
           <Reveal>
@@ -254,7 +254,7 @@ useHead({
       </div>
     </section>
 
-    <section v-if="related.length" class="border-t border-line">
+    <section data-ruler-label="RELATED" v-if="related.length" class="border-t border-line">
       <div class="frame">
         <div class="px-6 py-14 md:px-10 md:py-20">
           <div class="flex items-end justify-between gap-4">
@@ -281,7 +281,7 @@ useHead({
       </div>
     </section>
 
-    <section v-if="next" class="border-t border-line">
+    <section data-ruler-label="NEXT" v-if="next" class="border-t border-line">
       <div class="frame">
         <NuxtLink
           :to="`/projects/${next.slug}`"

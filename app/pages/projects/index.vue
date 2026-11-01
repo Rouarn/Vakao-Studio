@@ -40,7 +40,7 @@ useSeoMeta({
 
 <template>
   <div>
-    <section class="border-b border-line">
+    <section data-ruler-label="ARCHIVE" class="border-b border-line">
       <div class="frame">
         <div class="px-6 py-14 md:px-10 md:py-20">
           <Reveal>
@@ -79,7 +79,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section>
+    <section data-ruler-label="PROJECTS">
       <div class="frame">
         <div class="px-6 py-12 md:px-10 md:py-16">
           <div v-if="filtered.length" class="grid gap-4 md:grid-cols-2">
@@ -123,7 +123,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section class="border-t border-line">
+    <section data-ruler-label="CONTACT" class="border-t border-line">
       <div class="frame">
         <div
           class="flex flex-col gap-4 px-6 py-10 sm:flex-row sm:items-center sm:justify-between md:px-10"

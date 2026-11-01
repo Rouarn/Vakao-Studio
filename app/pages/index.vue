@@ -74,11 +74,10 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="home-ruler-page">
-    <SiteRuler />
+  <div>
 
     <!-- Hero -->
-    <section id="top" class="relative overflow-hidden border-b border-line">
+    <section id="top" data-ruler-ignore class="relative overflow-hidden border-b border-line">
       <div class="grid-paper pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
       <div class="frame relative">
         <div class="grid min-h-[620px] md:grid-cols-12">
@@ -162,7 +161,7 @@ useSeoMeta({
                   label="VaKao 四色星芒"
                 />
               </div>
-              <div class="hero-caption">
+              <div class="hero-caption lg:hidden">
                 <span class="hud text-faint">FOUR PETALS / FOUR DIRECTIONS</span>
                 <span class="hud text-accent-ink">VAKAO MARK</span>
               </div>
@@ -174,13 +173,13 @@ useSeoMeta({
           class="flex flex-wrap items-center justify-between gap-3 border-t border-line px-6 py-4 md:px-10"
         >
           <p class="hud text-faint">SCROLL TO EXPLORE</p>
-          <p class="hud text-faint">兰台 · 静态资源中心 · 点墨 · WireDeck</p>
+          <p class="hud text-faint lg:hidden">兰台 · 静态资源中心 · 点墨 · WireDeck</p>
         </div>
       </div>
     </section>
 
     <!-- Selected work -->
-    <section id="work">
+    <section id="work" data-ruler-label="SELECTED WORK">
       <SectionBar index="01" label="SELECTED WORK" meta="4 个核心项目" />
       <div class="frame">
         <div class="px-6 py-14 md:px-10 md:py-20">
@@ -214,7 +213,7 @@ useSeoMeta({
     </section>
 
     <!-- Capabilities -->
-    <section id="capabilities">
+    <section id="capabilities" data-ruler-label="CAPABILITIES">
       <SectionBar index="02" label="CAPABILITIES" meta="WHAT WE DO" />
       <div class="frame">
         <div class="px-6 py-14 md:px-10 md:py-20">
@@ -251,7 +250,7 @@ useSeoMeta({
     </section>
 
     <!-- Method -->
-    <section id="method">
+    <section id="method" data-ruler-label="METHOD">
       <SectionBar index="03" label="HOW WE WORK" meta="定义 → 交付" />
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
@@ -287,7 +286,7 @@ useSeoMeta({
     </section>
 
     <!-- Open source -->
-    <section id="open-source">
+    <section id="open-source" data-ruler-label="OPEN SOURCE">
       <SectionBar index="04" label="OPEN SOURCE" meta="4 个内部库 · 28 个公开仓库" />
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
@@ -344,7 +343,7 @@ useSeoMeta({
     </section>
 
     <!-- About teaser -->
-    <section id="about">
+    <section id="about" data-ruler-label="TEAM">
       <SectionBar index="05" label="THE TEAM" meta="SMALL TEAM, SERIOUS CRAFT" />
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
@@ -388,7 +387,7 @@ useSeoMeta({
     </section>
 
     <!-- CTA -->
-    <section id="contact-cta" class="cta-section border-t border-line">
+    <section id="contact-cta" data-ruler-label="GET STARTED" class="cta-section border-t border-line">
       <div class="frame">
         <div class="relative overflow-hidden px-6 py-16 md:px-10 md:py-24">
           <StarMark
@@ -501,11 +500,8 @@ useSeoMeta({
   }
 }
 @media (min-width: 1024px) {
-  .home-ruler-page {
-    padding-right: clamp(180px, 20vw, 280px);
-  }
-  .home-ruler-page .hero-title {
-    font-size: clamp(2.1rem, 4.7vw, 4rem);
+  .hero-caption {
+    display: none;
   }
 }
 </style>

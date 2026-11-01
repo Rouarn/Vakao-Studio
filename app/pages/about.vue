@@ -35,7 +35,7 @@ useSeoMeta({
 
 <template>
   <div>
-    <section class="border-b border-line">
+    <section data-ruler-label="ABOUT" class="border-b border-line">
       <div class="frame">
         <div class="px-6 py-14 md:px-10 md:py-24">
           <Reveal>
@@ -54,7 +54,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section>
+    <section data-ruler-label="PRINCIPLES">
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
           <div class="md:col-span-4">
@@ -83,7 +83,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section class="border-t border-line">
+    <section data-ruler-label="STANDARD" class="border-t border-line">
       <div class="frame">
         <div class="px-6 py-14 md:px-10 md:py-20">
           <Reveal>
@@ -112,7 +112,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section class="border-t border-line">
+    <section data-ruler-label="THIS SITE" class="border-t border-line">
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
           <div class="md:col-span-7">
@@ -154,7 +154,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section class="border-t border-line">
+    <section data-ruler-label="CONTACT" class="border-t border-line">
       <div class="frame">
         <div
           class="flex flex-col gap-4 px-6 py-10 sm:flex-row sm:items-center sm:justify-between md:px-10"

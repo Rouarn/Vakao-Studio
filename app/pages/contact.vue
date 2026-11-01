@@ -28,7 +28,7 @@ useSeoMeta({
 
 <template>
   <div>
-    <section class="border-b border-line">
+    <section data-ruler-label="CONTACT" class="border-b border-line">
       <div class="frame">
         <div class="px-6 py-14 md:px-10 md:py-24">
           <Reveal>
@@ -44,7 +44,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section>
+    <section data-ruler-label="EMAIL">
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
           <div class="md:col-span-7">
