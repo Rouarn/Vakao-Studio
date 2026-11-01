@@ -13,6 +13,7 @@ const QUEUE_CLEAR = 150;
 const CURRENT_GAP = 26;
 
 const route = useRoute();
+const nuxtApp = useNuxtApp();
 const rail = ref<HTMLElement | null>(null);
 const ready = ref(false);
 const visible = ref(false);
@@ -28,35 +29,106 @@ const pctLabel = ref("0%");
 let frame = 0;
 let hideTimer = 0;
 let tops: number[] = [];
+let lastSignature = "";
 let gsap: any = null;
 const labelEls = new Map<string, HTMLElement>();
-const prevPhases = new Map<string, Phase>();
+const charEls = new Map<string, HTMLElement[]>();
+const charPositions = new Map<string, { x: number; y: number; rot: number }[]>();
+const charTweens = new Map<string, any[]>();
+const prevState = new Map<string, string>();
+let measureCanvas: HTMLCanvasElement | null = null;
 
 function setLabelEl(key: string, el: unknown) {
   if (el instanceof HTMLElement) labelEls.set(key, el);
   else labelEls.delete(key);
 }
 
-function animateLabelPhase(label: Label) {
-  if (!gsap || reduced()) return;
+function setCharEl(key: string, index: number, el: unknown) {
+  if (!(el instanceof HTMLElement)) return;
+  const list = charEls.get(key) ?? [];
+  list[index] = el;
+  charEls.set(key, list);
+}
+
+function textWidths(el: HTMLElement, text: string) {
+  if (!measureCanvas) measureCanvas = document.createElement("canvas");
+  const ctx = measureCanvas.getContext("2d");
+  if (!ctx) return [...text].map(() => 12);
+  const cs = getComputedStyle(el);
+  ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  const spacing = Number.parseFloat(cs.letterSpacing) || 0;
+  return [...text].map((char) => ctx.measureText(char).width + spacing);
+}
+
+function targetsFor(label: Label, widths: number[]) {
+  const total = widths.reduce((a, b) => a + b, 0);
+  let cursor = 0;
+  return widths.map((width, index) => {
+    const item =
+      label.phase === "riding"
+        ? { x: -width / 2, y: total - cursor - width / 2, rot: -90 }
+        : { x: -(total - cursor - width), y: 0, rot: 0 };
+    cursor += width;
+    return { ...item, index };
+  });
+}
+
+function applyTransform(el: HTMLElement, x: number, y: number, rot: number) {
+  el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
+}
+
+function layoutLabelChars(label: Label) {
   const el = labelEls.get(label.key);
-  if (!el) return;
-  const chars = el.querySelectorAll(".ruler-char");
-  if (!chars.length) return;
-  const vertical = label.phase === "riding";
-  gsap.fromTo(
-    chars,
-    { y: vertical ? -16 : 12, rotate: vertical ? -10 : 6, opacity: 0.2 },
-    {
-      y: 0,
-      rotate: 0,
-      opacity: 1,
-      duration: 0.5,
-      stagger: 0.022,
-      ease: "power3.out",
-      overwrite: true,
-    },
-  );
+  const chars = charEls.get(label.key);
+  if (!el || !chars?.length) return;
+  const widths = textWidths(el, label.label);
+  const target = targetsFor(label, widths);
+  const current = charPositions.get(label.key);
+  const reducedMotion = reduced();
+  const nextPositions: { x: number; y: number; rot: number }[] = [];
+
+  const oldTweens = charTweens.get(label.key);
+  oldTweens?.forEach((tween) => tween?.kill?.());
+
+  const tweens: any[] = [];
+  for (let i = 0; i < chars.length; i += 1) {
+    const node = chars[i];
+    if (!node) continue;
+    const end = target[i];
+    if (!end) continue;
+    const start = current?.[i] ?? end;
+    if (reducedMotion || !gsap) {
+      applyTransform(node, end.x, end.y, end.rot);
+      nextPositions[i] = end;
+      continue;
+    }
+    const proxy = { p: 0 };
+    const arc = label.phase === "riding" ? -30 : 30;
+    const tween = gsap.to(proxy, {
+      p: 1,
+      duration: 0.9,
+      delay: i * 0.055,
+      ease: "power3.inOut",
+      onUpdate: () => {
+        const t = proxy.p;
+        const bow = Math.sin(Math.PI * t) * arc;
+        const x = start.x + (end.x - start.x) * t + bow;
+        const y = start.y + (end.y - start.y) * t;
+        applyTransform(node, x, y, start.rot + (end.rot - start.rot) * t);
+        const list = charPositions.get(label.key) ?? [];
+        list[i] = { x, y, rot: start.rot + (end.rot - start.rot) * t };
+        charPositions.set(label.key, list);
+      },
+      onComplete: () => {
+        applyTransform(node, end.x, end.y, end.rot);
+        const list = charPositions.get(label.key) ?? [];
+        list[i] = end;
+        charPositions.set(label.key, list);
+      },
+    });
+    tweens.push(tween);
+  }
+  charTweens.set(label.key, tweens);
 }
 
 function reduced() {
@@ -151,9 +223,10 @@ function update() {
   }));
 
   for (const item of labels.value) {
-    if (prevPhases.get(item.key) === item.phase) continue;
-    prevPhases.set(item.key, item.phase);
-    window.requestAnimationFrame(() => animateLabelPhase(item));
+    const state = `${item.phase}:${item.active}`;
+    if (prevState.get(item.key) === state) continue;
+    prevState.set(item.key, state);
+    window.requestAnimationFrame(() => layoutLabelChars(item));
   }
 }
 
@@ -240,8 +313,25 @@ function goSection(key: string) {
 async function rebuild() {
   await nextTick();
   buildSections();
+  lastSignature = defs.value.map((d) => d.label).join("|");
   measure();
   update();
+}
+
+async function syncRoute() {
+  const previous = lastSignature;
+  for (let attempt = 0; attempt < 16; attempt += 1) {
+    await nextTick();
+    buildSections();
+    const signature = defs.value.map((d) => d.label).join("|");
+    if (signature !== previous || attempt === 15) {
+      lastSignature = signature;
+      measure();
+      update();
+      return;
+    }
+    await new Promise((resolve) => window.setTimeout(resolve, 60));
+  }
 }
 
 onMounted(async () => {
@@ -259,12 +349,17 @@ onMounted(async () => {
     measure();
     schedule();
   });
+  nuxtApp.hook("page:finish", () => {
+    window.setTimeout(() => {
+      void syncRoute();
+    }, 40);
+  });
 });
 
 watch(
   () => route.fullPath,
   async () => {
-    await rebuild();
+    await syncRoute();
   },
 );
 
@@ -302,7 +397,7 @@ onBeforeUnmount(() => {
         @mouseleave="hideRulerSoon"
       >
         <span class="ruler-label__text">
-          <span v-for="(char, charIndex) in [...item.label]" :key="charIndex" class="ruler-char">{{ char }}</span>
+          <span v-for="(char, charIndex) in [...item.label]" :key="charIndex" :ref="(el) => setCharEl(item.key, charIndex, el)" class="ruler-char">{{ char }}</span>
         </span>
       </button>
     </div>
@@ -394,8 +489,9 @@ onBeforeUnmount(() => {
   position: absolute;
   right: 0;
   display: block;
-  transform: translateY(-50%) rotate(0deg);
-  transform-origin: 100% 50%;
+  width: min(300px, 26vw);
+  height: 24px;
+  transform: translateY(-50%);
   border: 0;
   background: transparent;
   padding: 0;
@@ -412,21 +508,26 @@ onBeforeUnmount(() => {
   opacity: 0.58;
   text-shadow: 0 1px 18px var(--color-paper), 0 0 4px var(--color-paper);
   transition:
-    top 280ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-    font-size 220ms ease,
+    top 900ms cubic-bezier(0.22, 1, 0.36, 1),
     color 220ms ease,
     opacity 220ms ease;
 }
 
 .ruler-label__text {
-  display: inline-flex;
+  position: absolute;
+  inset: 0;
+  display: block;
   white-space: pre;
 }
 
 .ruler-char {
-  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  line-height: 1;
   will-change: transform;
+  transform-origin: 50% 50%;
 }
 
 .ruler-label:hover {
@@ -436,13 +537,13 @@ onBeforeUnmount(() => {
 
 .ruler-label.is-riding {
   right: 38px;
+  height: 0;
   color: var(--color-muted);
   font-size: 22px;
   letter-spacing: -0.01em;
-  transform: translateY(-50%) rotate(-90deg);
+  transform: none;
   transition:
-    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-    font-size 220ms ease,
+    top 900ms cubic-bezier(0.22, 1, 0.36, 1),
     color 220ms ease,
     opacity 220ms ease;
 }
