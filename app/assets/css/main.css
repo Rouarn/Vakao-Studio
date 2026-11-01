@@ -453,3 +453,15 @@
   opacity: 0;
   transform: translateY(8px);
 }
+
+/* The homepage uses a custom ruler instead of the native scrollbar. */
+html.has-custom-ruler {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html.has-custom-ruler::-webkit-scrollbar,
+html.has-custom-ruler body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}

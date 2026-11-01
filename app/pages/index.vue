@@ -74,7 +74,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div>
+  <div class="home-ruler-page">
     <SiteRuler />
 
     <!-- Hero -->
@@ -94,7 +94,7 @@ useSeoMeta({
             </Reveal>
 
             <Reveal :delay="80">
-              <h1 class="display mt-8 text-[clamp(2.1rem,5.4vw,4.4rem)] text-strong">
+              <h1 class="hero-title display mt-8 text-[clamp(2.1rem,5.4vw,4.4rem)] text-strong">
                 把想法做成
                 <br />
                 每天都在用的工具。
@@ -498,6 +498,14 @@ useSeoMeta({
   }
   .hero-star-wrap {
     width: 46%;
+  }
+}
+@media (min-width: 1024px) {
+  .home-ruler-page {
+    padding-right: clamp(180px, 20vw, 280px);
+  }
+  .home-ruler-page .hero-title {
+    font-size: clamp(2.1rem, 4.7vw, 4rem);
   }
 }
 </style>
