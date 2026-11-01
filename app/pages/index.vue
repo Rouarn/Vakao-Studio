@@ -75,8 +75,10 @@ useSeoMeta({
 
 <template>
   <div>
+    <SiteRuler />
+
     <!-- Hero -->
-    <section class="relative overflow-hidden border-b border-line">
+    <section id="top" class="relative overflow-hidden border-b border-line">
       <div class="grid-paper pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
       <div class="frame relative">
         <div class="grid min-h-[620px] md:grid-cols-12">
@@ -386,7 +388,7 @@ useSeoMeta({
     </section>
 
     <!-- CTA -->
-    <section class="cta-section border-t border-line">
+    <section id="contact-cta" class="cta-section border-t border-line">
       <div class="frame">
         <div class="relative overflow-hidden px-6 py-16 md:px-10 md:py-24">
           <StarMark
