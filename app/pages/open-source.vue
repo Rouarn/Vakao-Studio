@@ -195,9 +195,9 @@ useSeoMeta({
             能用的东西，<br />也值得被看见。
           </h1>
           <p class="mt-6 max-w-2xl text-base leading-8 text-muted">
-            VaKao 的产品、工具、模板与内部基础设施现已公开。除
+            VaKao 的产品、工具、模板与内部基础设施现已公开。
             <span class="font-mono text-ink">Vakao-Platform</span>
-            与个人知识库外，仓库都可以在 GitHub 上直接查看、提 Issue 或 Fork。
+            与少数含个人内容的仓库保持私有，其余仓库都可以在 GitHub 上直接查看、提 Issue 或 Fork。
           </p>
           <div class="mt-8 flex flex-wrap gap-3">
             <a
