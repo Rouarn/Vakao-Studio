@@ -35,7 +35,9 @@ const labelEls = new Map<string, HTMLElement>();
 const charEls = new Map<string, HTMLElement[]>();
 const charPositions = new Map<string, { x: number; y: number; rot: number }[]>();
 const charTweens = new Map<string, any[]>();
-const prevState = new Map<string, string>();
+const prevPhases = new Map<string, Phase>();
+const topSetters = new Map<string, (value: number) => void>();
+const topSeen = new Set<string>();
 let measureCanvas: HTMLCanvasElement | null = null;
 
 function setLabelEl(key: string, el: unknown) {
@@ -48,6 +50,25 @@ function setCharEl(key: string, index: number, el: unknown) {
   const list = charEls.get(key) ?? [];
   list[index] = el;
   charEls.set(key, list);
+}
+
+function setLabelTop(key: string, value: number) {
+  const el = labelEls.get(key);
+  if (!el) return;
+  if (!topSeen.has(key) || !gsap) {
+    el.style.top = `${value}px`;
+    topSeen.add(key);
+    if (gsap) {
+      topSetters.set(
+        key,
+        gsap.quickTo(el, "top", { duration: 0.3, ease: "power2.out" }),
+      );
+    }
+    return;
+  }
+  const setter = topSetters.get(key);
+  if (setter) setter(value);
+  else el.style.top = `${value}px`;
 }
 
 function textWidths(el: HTMLElement, text: string) {
@@ -224,9 +245,9 @@ function update() {
   }));
 
   for (const item of labels.value) {
-    const state = `${item.phase}:${item.active}`;
-    if (prevState.get(item.key) === state) continue;
-    prevState.set(item.key, state);
+    setLabelTop(item.key, item.y);
+    if (prevPhases.get(item.key) === item.phase) continue;
+    prevPhases.set(item.key, item.phase);
     window.requestAnimationFrame(() => layoutLabelChars(item));
   }
 }
@@ -327,6 +348,10 @@ async function syncRoute() {
     const signature = defs.value.map((d) => d.label).join("|");
     if (signature !== previous || attempt === 15) {
       lastSignature = signature;
+      topSetters.clear();
+      topSeen.clear();
+      charPositions.clear();
+      prevPhases.clear();
       measure();
       update();
       return;
@@ -509,7 +534,7 @@ onBeforeUnmount(() => {
   opacity: 0.58;
   text-shadow: 0 1px 18px var(--color-paper), 0 0 4px var(--color-paper);
   transition:
-    top 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
     color 220ms ease,
     opacity 220ms ease;
 }
@@ -544,7 +569,7 @@ onBeforeUnmount(() => {
   letter-spacing: -0.01em;
   transform: none;
   transition:
-    top 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
     color 220ms ease,
     opacity 220ms ease;
 }
@@ -564,18 +589,19 @@ onBeforeUnmount(() => {
 }
 
 .ruler-label.is-active.is-top {
-  font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+  transform: translateY(-50%) scale(1.28);
+  transform-origin: 100% 50%;
   font-weight: 600;
-  letter-spacing: -0.04em;
 }
 
 .ruler-label.is-active.is-riding {
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: 28px;
   font-weight: 600;
   letter-spacing: -0.02em;
   text-transform: none;
+  transform: scale(1.14);
+  transform-origin: 100% 0;
 }
 
 .ruler-label.is-queued {
