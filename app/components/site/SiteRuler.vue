@@ -10,7 +10,6 @@ const TOP_PAD = 64;
 const QUEUE_PAD = 38;
 const QUEUE_SLOT = 28;
 const QUEUE_CLEAR = 150;
-const CURRENT_GAP = 26;
 
 const route = useRoute();
 const nuxtApp = useNuxtApp();
@@ -204,7 +203,7 @@ function update() {
   const top = records.filter((r) => r.phase === "top");
   for (let i = 0; i < top.length; i += 1) {
     const item = top[i]!;
-    item.y = NAV_H + TOP_PAD + i * QUEUE_SLOT + (item.index === active ? CURRENT_GAP : 0);
+    item.y = NAV_H + TOP_PAD + i * QUEUE_SLOT;
     item.active = item.index === active;
   }
 
