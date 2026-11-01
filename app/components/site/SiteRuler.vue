@@ -34,10 +34,11 @@ let gsap: any = null;
 const labelEls = new Map<string, HTMLElement>();
 const charEls = new Map<string, HTMLElement[]>();
 const charData = new Map<string, { font: string; horizontal: Vec[]; vertical: Vec[] }>();
-const topSetters = new Map<string, (value: number) => void>();
-const topSeen = new Set<string>();
-const FLIP_ZONE = 220;
-const STAGGER = 0.58;
+const prevPhase = new Map<string, Phase>();
+const prevY = new Map<string, number>();
+const entryFrom = new Map<string, number>();
+const FLIP_ZONE = 260;
+const STAGGER = 0.42;
 let measureCanvas: HTMLCanvasElement | null = null;
 
 type Vec = { x: number; y: number; rot: number };
@@ -52,25 +53,6 @@ function setCharEl(key: string, index: number, el: unknown) {
   const list = charEls.get(key) ?? [];
   list[index] = el;
   charEls.set(key, list);
-}
-
-function setLabelTop(key: string, value: number) {
-  const el = labelEls.get(key);
-  if (!el) return;
-  if (!topSeen.has(key) || !gsap) {
-    el.style.top = `${value}px`;
-    topSeen.add(key);
-    if (gsap) {
-      topSetters.set(
-        key,
-        gsap.quickTo(el, "top", { duration: 0.22, ease: "power2.out" }),
-      );
-    }
-    return;
-  }
-  const setter = topSetters.get(key);
-  if (setter) setter(value);
-  else el.style.top = `${value}px`;
 }
 
 function textWidths(el: HTMLElement, text: string) {
@@ -135,7 +117,7 @@ function updateCharFlip(label: Label) {
     const start = ((n - 1 - i) / Math.max(1, n - 1)) * STAGGER;
     const local = clamp01((label.flip - start) / (1 - STAGGER));
     const eased = easeInOutCubic(local);
-    const bow = Math.sin(Math.PI * eased) * 34;
+    const bow = Math.sin(Math.PI * eased) * 24;
     const x = h.x + (v.x - h.x) * eased + bow;
     const y = h.y + (v.y - h.y) * eased;
     const rot = h.rot + (v.rot - h.rot) * eased;
@@ -235,7 +217,16 @@ function update() {
 
   const riding = records.filter((r) => r.phase === "riding");
   for (const item of riding) {
-    item.y = Math.max(threshold + 8, Math.min(vh - QUEUE_PAD - QUEUE_CLEAR, item.v));
+    const key = item.section.key;
+    const previousPhase = prevPhase.get(key);
+    if (previousPhase !== "riding") {
+      entryFrom.set(key, prevY.get(key) ?? item.v);
+    }
+    const start = entryFrom.get(key) ?? item.v;
+    const entry = item.v > threshold + FLIP_ZONE;
+    item.y = entry && item.flip < 1
+      ? start + (item.v - start) * easeInOutCubic(item.flip)
+      : item.v;
     item.active = item.index === active;
   }
 
@@ -249,9 +240,13 @@ function update() {
     index: r.index,
   }));
 
-  for (const item of labels.value) setLabelTop(item.key, item.y);
+  for (const item of labels.value) {
+    const el = labelEls.get(item.key);
+    if (el) el.style.top = `${item.y}px`;
+    prevPhase.set(item.key, item.phase);
+    prevY.set(item.key, item.y);
+  }
   updateAllChars();
-  window.requestAnimationFrame(updateAllChars);
 }
 
 function schedule() {
@@ -350,11 +345,13 @@ async function syncRoute() {
     const signature = defs.value.map((d) => d.label).join("|");
     if (signature !== previous || attempt === 15) {
       lastSignature = signature;
-      topSetters.clear();
-      topSeen.clear();
+      prevPhase.clear();
+      prevY.clear();
+      entryFrom.clear();
       charData.clear();
       measure();
       update();
+      window.requestAnimationFrame(updateAllChars);
       return;
     }
     await new Promise((resolve) => window.setTimeout(resolve, 60));
@@ -367,6 +364,7 @@ onMounted(async () => {
   gsap = mod.default ?? mod;
   await rebuild();
   ready.value = true;
+  window.requestAnimationFrame(updateAllChars);
   window.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", () => {
     measure();
@@ -525,7 +523,7 @@ onBeforeUnmount(() => {
   color: var(--color-faint);
   text-align: right;
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -562,12 +560,19 @@ onBeforeUnmount(() => {
   opacity: 1;
 }
 
+.ruler-label.is-top,
+.ruler-label.is-queued {
+  transition:
+    top 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms ease,
+    opacity 220ms ease;
+}
+
 .ruler-label.is-riding {
   right: 38px;
   height: 0;
   color: var(--color-muted);
-  font-size: 22px;
-  letter-spacing: -0.01em;
   transform: none;
   transition:
     transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -578,9 +583,7 @@ onBeforeUnmount(() => {
 .ruler-label.is-top {
   color: var(--color-muted);
   font-family: var(--font-display);
-  font-size: 19px;
   font-weight: 500;
-  letter-spacing: -0.02em;
   text-transform: none;
 }
 
@@ -590,18 +593,15 @@ onBeforeUnmount(() => {
 }
 
 .ruler-label.is-active.is-top {
-  transform: translateY(-50%) scale(1.28);
+  transform: translateY(-50%) scale(1.34);
   transform-origin: 100% 50%;
-  font-weight: 600;
 }
 
 .ruler-label.is-active.is-riding {
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.02em;
   text-transform: none;
-  transform: scale(1.14);
+  transform: scale(1.12);
   transform-origin: 100% 0;
 }
 
