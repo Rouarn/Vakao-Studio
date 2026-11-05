@@ -196,7 +196,7 @@ useSeoMeta({
     <section class="border-b border-line">
       <div class="frame px-6 py-16 md:px-10 md:py-24">
         <Reveal>
-          <p class="hud text-accent-ink">OPEN SOURCE / 29 PUBLIC REPOS</p>
+          <p class="hud text-accent-ink">OPEN SOURCE / {{ products.length + foundations.length }} PUBLIC REPOS</p>
           <h1 class="display mt-6 text-[clamp(2.4rem,6vw,5rem)] text-strong">
             能用的东西，<br />也值得被看见。
           </h1>
