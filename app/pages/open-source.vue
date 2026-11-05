@@ -8,7 +8,7 @@ useSeoMeta({
   description: "VaKao 的公开仓库：产品、工具、模板与前端基础设施。",
   ogTitle: "开源项目 — VaKao",
   ogDescription: "产品、工具、模板与前端基础设施。",
-  ogImage: "/og/home.png",
+  ogImage: "/og/open-source.png",
   ogType: "website",
 });
 </script>
