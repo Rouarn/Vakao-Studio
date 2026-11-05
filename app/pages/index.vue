@@ -65,8 +65,7 @@ const libraries = [
 
 useSeoMeta({
   title: "VaKao — 把想法做成每天都在用的工具",
-  description:
-    "VaKao 是一个做 Web 平台、桌面工具、移动应用、浏览器扩展与开源库的小团队。",
+  description: "VaKao 是一个做 Web 平台、桌面工具、移动应用、浏览器扩展与开源库的小团队。",
   ogTitle: "VaKao — 把想法做成每天都在用的工具",
   ogDescription: "一个小团队，做 Web 平台、桌面工具、移动应用、浏览器扩展与开源库。",
   ogImage: "/og/home.png",
@@ -77,7 +76,6 @@ useSeoMeta({
 
 <template>
   <div>
-
     <!-- Hero -->
     <section id="top" data-ruler-ignore class="relative overflow-hidden border-b border-line">
       <div class="grid-paper pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
@@ -393,7 +391,11 @@ useSeoMeta({
     </section>
 
     <!-- CTA -->
-    <section id="contact-cta" data-ruler-label="GET STARTED" class="cta-section border-t border-line">
+    <section
+      id="contact-cta"
+      data-ruler-label="GET STARTED"
+      class="cta-section border-t border-line"
+    >
       <div class="frame">
         <div class="relative overflow-hidden px-6 py-16 md:px-10 md:py-24">
           <StarMark

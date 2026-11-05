@@ -3,7 +3,15 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue"
 
 type SectionDef = { key: string; label: string; el: HTMLElement };
 type Phase = "queued" | "riding" | "top";
-type Label = { key: string; label: string; phase: Phase; y: number; flip: number; active: boolean; index: number };
+type Label = {
+  key: string;
+  label: string;
+  phase: Phase;
+  y: number;
+  flip: number;
+  active: boolean;
+  index: number;
+};
 
 const NAV_H = 48;
 const TOP_PAD = 64;
@@ -90,9 +98,7 @@ function clamp01(value: number) {
 }
 
 function easeInOutCubic(value: number) {
-  return value < 0.5
-    ? 4 * value * value * value
-    : 1 - Math.pow(-2 * value + 2, 3) / 2;
+  return value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
 }
 
 function updateCharFlip(label: Label) {
@@ -218,12 +224,10 @@ function update() {
 
   const riding = records.filter((r) => r.phase === "riding");
   for (const item of riding) {
-    const queueY =
-      vh - QUEUE_PAD - (defs.value.length - 1 - item.index) * QUEUE_SLOT;
+    const queueY = vh - QUEUE_PAD - (defs.value.length - 1 - item.index) * QUEUE_SLOT;
     const entering = item.v > threshold + FLIP_ZONE;
-    item.y = entering && item.flip < 1
-      ? queueY + (item.v - queueY) * easeInOutCubic(item.flip)
-      : item.v;
+    item.y =
+      entering && item.flip < 1 ? queueY + (item.v - queueY) * easeInOutCubic(item.flip) : item.v;
     item.active = item.index === active;
   }
 
@@ -418,7 +422,13 @@ onBeforeUnmount(() => {
         @mouseleave="hideRulerSoon"
       >
         <span class="ruler-label__text">
-          <span v-for="(char, charIndex) in [...item.label]" :key="charIndex" :ref="(el) => setCharEl(item.key, charIndex, el)" class="ruler-char">{{ char }}</span>
+          <span
+            v-for="(char, charIndex) in [...item.label]"
+            :key="charIndex"
+            :ref="(el) => setCharEl(item.key, charIndex, el)"
+            class="ruler-char"
+            >{{ char }}</span
+          >
         </span>
       </button>
     </div>
@@ -527,7 +537,9 @@ onBeforeUnmount(() => {
   white-space: nowrap;
   pointer-events: auto;
   opacity: 0.58;
-  text-shadow: 0 1px 18px var(--color-paper), 0 0 4px var(--color-paper);
+  text-shadow:
+    0 1px 18px var(--color-paper),
+    0 0 4px var(--color-paper);
   transition:
     transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
     color 220ms ease,
@@ -615,7 +627,9 @@ onBeforeUnmount(() => {
   opacity: 0;
   transform: translateX(18px);
   pointer-events: none;
-  transition: opacity 260ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    opacity 260ms ease,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .ruler-rail.is-visible {
@@ -741,7 +755,9 @@ onBeforeUnmount(() => {
   font-size: 8px;
   letter-spacing: 0.06em;
   opacity: 0;
-  transition: opacity 180ms ease, color 180ms ease;
+  transition:
+    opacity 180ms ease,
+    color 180ms ease;
 }
 
 .ruler-hit:hover .ruler-percent,
@@ -763,24 +779,24 @@ onBeforeUnmount(() => {
   .ruler-rail,
   .ruler-tick,
   .ruler-readout {
-  position: absolute;
-  top: 9px;
-  right: 4px;
-  color: var(--color-muted);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  font-variant-numeric: tabular-nums;
-  opacity: 0.55;
-  transition: opacity 180ms ease;
-}
+    position: absolute;
+    top: 9px;
+    right: 4px;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.55;
+    transition: opacity 180ms ease;
+  }
 
-.ruler-hit:hover .ruler-readout {
-  opacity: 1;
-}
+  .ruler-hit:hover .ruler-readout {
+    opacity: 1;
+  }
 
-.ruler-percent {
+  .ruler-percent {
     transition: none;
   }
 }

@@ -199,9 +199,7 @@ defineProps<{
           </div>
         </div>
       </div>
-      <div class="lib-chips">
-        <span>macOS</span><span>Windows</span><span>Linux</span>
-      </div>
+      <div class="lib-chips"><span>macOS</span><span>Windows</span><span>Linux</span></div>
       <span class="scene-label">工程示意 · 类型化 IPC 契约</span>
     </div>
 
@@ -230,9 +228,7 @@ defineProps<{
           </div>
         </div>
       </div>
-      <div class="lib-chips">
-        <span>Go</span><span>Wails v3</span><span>WebView</span>
-      </div>
+      <div class="lib-chips"><span>Go</span><span>Wails v3</span><span>WebView</span></div>
       <span class="scene-label">工程示意 · 契约生成 bindings</span>
     </div>
 
