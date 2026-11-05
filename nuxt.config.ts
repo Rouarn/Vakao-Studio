@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {
+      titleTemplate: "%s",
       htmlAttrs: { lang: "zh-CN" },
       link: [
         { rel: "icon", type: "image/x-icon", href: "/brand/favicon.ico" },
