@@ -28,9 +28,13 @@ const setType = (type: string) => {
   router.push({ query: type === "all" ? {} : { type } });
 };
 
+const seoDescription = computed(
+  () => `VaKao 的作品档案：${projects.value.map((project) => project.title).join("、")}。`,
+);
+
 useSeoMeta({
   title: "项目 — VaKao",
-  description: "VaKao 的作品档案：兰台、静态资源中心、点墨、WireDeck，以及浏览器扩展与内部开源库。",
+  description: seoDescription,
   ogTitle: "项目 — VaKao",
   ogDescription: "平台、桌面、移动、扩展与开源库。",
   ogImage: "/og/projects.png",

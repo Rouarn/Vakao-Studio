@@ -64,7 +64,7 @@ const libraries = [
 useSeoMeta({
   title: "VaKao — 把想法做成每天都在用的工具",
   description:
-    "VaKao 是一个做 Web 平台、桌面工具、移动应用、浏览器扩展与开源库的小团队。兰台、静态资源中心、点墨、WireDeck，以及浏览器扩展与开源基础设施。",
+    "VaKao 是一个做 Web 平台、桌面工具、移动应用、浏览器扩展与开源库的小团队。",
   ogTitle: "VaKao — 把想法做成每天都在用的工具",
   ogDescription: "一个小团队，做 Web 平台、桌面工具、移动应用、浏览器扩展与开源库。",
   ogImage: "/og/home.png",
@@ -287,7 +287,7 @@ useSeoMeta({
 
     <!-- Open source -->
     <section id="open-source" data-ruler-label="OPEN SOURCE">
-      <SectionBar index="04" label="OPEN SOURCE" meta="4 个内部库 · 28 个公开仓库" />
+      <SectionBar index="04" label="OPEN SOURCE" meta="4 个内部库 · 29 个公开仓库" />
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
           <div class="md:col-span-5">
