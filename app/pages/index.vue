@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ArrowUpRight, Boxes, Github, Globe2, Monitor, Smartphone } from "lucide-vue-next";
 
+import { foundations, products } from "~/utils/openSource";
+
 const projects = await useProjects();
 const featured = computed(() => projects.value.filter((project) => project.featured).slice(0, 4));
 
@@ -287,7 +289,11 @@ useSeoMeta({
 
     <!-- Open source -->
     <section id="open-source" data-ruler-label="OPEN SOURCE">
-      <SectionBar index="04" label="OPEN SOURCE" meta="4 个内部库 · 29 个公开仓库" />
+      <SectionBar
+        index="04"
+        label="OPEN SOURCE"
+        :meta="`${libraries.length} 个内部库 · ${products.length + foundations.length} 个公开仓库`"
+      />
       <div class="frame">
         <div class="grid gap-10 px-6 py-14 md:grid-cols-12 md:px-10 md:py-20">
           <div class="md:col-span-5">
