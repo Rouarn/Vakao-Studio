@@ -180,6 +180,62 @@ defineProps<{
       </div>
     </div>
 
+    <div v-else-if="slug === 'electron-template'" class="scene scene-template">
+      <div class="tpl-window">
+        <div class="panel-top">
+          <span class="dot" /><span class="dot" /><span class="dot" />
+          <span class="hud ml-2 text-faint">ELECTRON · IPC</span>
+          <span class="hud ml-auto text-[var(--proj-ink)]">SANDBOX</span>
+        </div>
+        <div class="panel-body">
+          <div v-for="lane in ['MAIN', 'PRELOAD', 'RENDERER']" :key="lane" class="file-row">
+            <span class="file-icon" />
+            <span class="hud text-muted">{{ lane }}</span>
+            <span class="line ml-auto w-1/3" />
+          </div>
+          <div class="tpl-contract">
+            <span class="hud text-[var(--proj-ink)]">SHARED / IPC</span>
+            <span class="line w-1/2" />
+          </div>
+        </div>
+      </div>
+      <div class="lib-chips">
+        <span>macOS</span><span>Windows</span><span>Linux</span>
+      </div>
+      <span class="scene-label">工程示意 · 类型化 IPC 契约</span>
+    </div>
+
+    <div v-else-if="slug === 'wails3-template'" class="scene scene-template">
+      <div class="tpl-window">
+        <div class="panel-top">
+          <span class="dot" /><span class="dot" /><span class="dot" />
+          <span class="hud ml-2 text-faint">WAILS3 · CONTRACT</span>
+          <span class="hud ml-auto text-[var(--proj-ink)]">BINDINGS</span>
+        </div>
+        <div class="panel-body">
+          <div class="file-row">
+            <span class="file-icon" />
+            <span class="hud text-muted">internal / contract</span>
+            <span class="line ml-auto w-1/4" />
+          </div>
+          <p class="hud mt-2 text-faint">↓ wails3 generate bindings</p>
+          <div class="file-row">
+            <span class="file-icon" />
+            <span class="hud text-muted">frontend / bindings</span>
+            <span class="line ml-auto w-1/4" />
+          </div>
+          <div class="tpl-contract">
+            <span class="hud text-[var(--proj-ink)]">CHECK / NO DRIFT</span>
+            <span class="line w-1/3" />
+          </div>
+        </div>
+      </div>
+      <div class="lib-chips">
+        <span>Go</span><span>Wails v3</span><span>WebView</span>
+      </div>
+      <span class="scene-label">工程示意 · 契约生成 bindings</span>
+    </div>
+
     <div v-else class="scene scene-library">
       <div class="code-panel">
         <div class="code-head">
@@ -801,6 +857,31 @@ defineProps<{
   font-family: var(--font-mono);
   font-size: 8px;
   font-weight: 700;
+}
+
+/* templates */
+.scene-template {
+  padding: 8% 9% 0;
+}
+
+.tpl-window {
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-raised);
+  box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.tpl-window .panel-body {
+  padding: 10px 12px 12px;
+}
+
+.tpl-contract {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px dashed var(--color-line-strong);
 }
 
 /* library */
