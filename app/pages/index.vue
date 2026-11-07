@@ -42,17 +42,17 @@ const steps = [
 
 const libraries = [
   {
-    name: "@vakao-ui/axios",
+    name: "@vakao/axios",
     copy: "统一信封、401 单飞刷新、重复请求取消与全局 loading。",
     meta: "0.0.2",
   },
   {
-    name: "@vakao-ui/socket-system",
+    name: "@vakao/socket-system",
     copy: "连接管理、自动重连、房间恢复、标准化消息与错误出口。",
     meta: "TypeScript",
   },
   {
-    name: "@vakao-ui/scripts-utils",
+    name: "@vakao/scripts-utils",
     copy: "终端颜色、图标、ASCII 横幅与构建脚本的常用工具。",
     meta: "CLI",
   },

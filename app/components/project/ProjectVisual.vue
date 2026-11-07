@@ -235,12 +235,12 @@ defineProps<{
     <div v-else class="scene scene-library">
       <div class="code-panel">
         <div class="code-head">
-          <span class="hud text-faint">@vakao-ui</span>
+          <span class="hud text-faint">@vakao</span>
           <span class="hud text-[var(--proj-ink)]">TYPESCRIPT</span>
         </div>
         <pre
           class="code-body"
-        ><span class="c-key">import</span> { createClient } <span class="c-key">from</span> <span class="c-str">'@vakao-ui/axios'</span>
+        ><span class="c-key">import</span> { createClient } <span class="c-key">from</span> <span class="c-str">'@vakao/axios'</span>
 
 <span class="c-key">const</span> client = <span class="c-fn">createClient</span>({
   baseURL: <span class="c-str">'/api/v1'</span>,
